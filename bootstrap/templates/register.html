@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>Register</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+    <form method="POST">
+        <label class="form-label" for="first_name">First Name</label>
+        <input type="text" class="form-control" placeholder="First Name" name="first_name" id="first_name">
+        <br>
+        <label class="form-label" for="last_name">Last Name</label>
+        <input type="text" class="form-control" placeholder="Last Name" name="last_name" id="last_name">
+        <br>
+        <label class="form-label" for="email">Email</label>
+        <input type="text" class="form-control" placeholder="Email" name="email" id="email">
+        <br>
+        <label class="form-label" for="username">Username</label>
+        <input type="text" class="form-control" placeholder="Username" name="username" id="username">
+        <br>
+        <label class="form-label" for="password">Password</label>
+        <input type="password" class="form-control" placeholder="Password" name="password" id="password">
+        <br>
+        <div class="form-check">
+            <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" name="preferences" id="btn-check-outlined" value="business" autocomplete="off">
+                <label class="btn btn-outline-primary" for="btn-check-outlined">Business</label><br>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" id="btn-check-2-outlined" value="entertainment" autocomplete="off">
+                <label class="btn btn-outline-primary" for="btn-check-2-outlined">Entertainment</label><br>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" name="preferences" id="btn-check-3-outlined" value="sports" autocomplete="off">
+                <label class="btn btn-outline-primary" for="btn-check-3-outlined">Sports</label><br>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" name="preferences" id="btn-check-4-outlined" value="technology" autocomplete="off">
+                <label class="btn btn-outline-primary" for="btn-check-4-outlined">Technology</label><br>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" name="preferences" id="btn-check-5-outlined" value="games" autocomplete="off">
+                <label class="btn btn-outline-primary" for="btn-check-5-outlined">Games</label><br>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" name="preferences" id="btn-check-6-outlined" value="health" autocomplete="off">
+                <label class="btn btn-outline-primary" for="btn-check-6-outlined">Health</label><br>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" name="preferences" id="btn-check-7-outlined" value="science" autocomplete="off">
+                <label class="btn btn-outline-primary" for="btn-check-7-outlined">Science</label><br>
+              </div>
+        </div>
+        <br>
+        <input class="btn btn-success" type="submit" value="Register">
+    </form>
+    <br>
+    <p>Have an account? <a href="/login">Login</a></p>
+{% endblock %}
+
