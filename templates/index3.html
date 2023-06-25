@@ -1,0 +1,863 @@
+{% extends "base.html" %}
+{% block head %}
+<title>YourNews - Home</title>
+{% endblock %}
+
+{% block body %}
+<section class="section first-section">
+    <div class="container-fluid">
+        <div class="masonry-blog clearfix">
+            <div class="first-slot">
+                <div class="masonry-box post-media">
+                    <img src="{{ news_articles[26]['urlToImage'] }}" width="788" height="443" alt="" class="img-fluid">
+                    <div class="shadoweffect">
+                        <div class="shadow-desc">
+                            <div class="blog-meta">
+                                <span class="bg-orange"><a href="/category/{{ news_articles[26]['category'].lower() }}"
+                                        title="">{{ news_articles[26]['category'] }}</a></span>
+                                <h4><a href="{{ news_articles[26]['url'] }}" target="_blank" title="">{{
+                                        news_articles[26]['title'] }}</a></h4>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[26]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[26]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[26]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[26]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[26]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[26]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[26]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[26]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px; color: white"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[26]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px; color: white"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end shadow-desc -->
+                    </div><!-- end shadow -->
+                </div><!-- end post-media -->
+            </div><!-- end first-side -->
+
+            <div class="second-slot">
+                <div class="masonry-box post-media">
+                    <img src="{{ news_articles[27]['urlToImage'] }}" width="394" height="499" alt="" class="img-fluid">
+                    <div class="shadoweffect">
+                        <div class="shadow-desc">
+                            <div class="blog-meta">
+                                <span class="bg-orange"><a href="/category/{{ news_articles[27]['category'].lower() }}"
+                                        title="">{{ news_articles[27]['category'] }}</a></span>
+                                <h4><a href="{{ news_articles[27]['url'] }}" target="_blank" title="">{{
+                                        news_articles[27]['title'] }}</a></h4>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[27]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[27]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[27]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[27]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[27]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[27]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[27]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[27]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px; color: white"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[27]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px; color: white"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end shadow-desc -->
+                    </div><!-- end shadow -->
+                </div><!-- end post-media -->
+            </div><!-- end second-side -->
+
+            <div class="last-slot">
+                <div class="masonry-box post-media">
+                    <img src="{{ news_articles[28]['urlToImage'] }}" width="394" height="499" alt="" class="img-fluid">
+                    <div class="shadoweffect">
+                        <div class="shadow-desc">
+                            <div class="blog-meta">
+                                <span class="bg-orange"><a href="/category/{{ news_articles[28]['category'].lower() }}"
+                                        title="">{{ news_articles[28]['category'] }}</a></span>
+                                <h4><a href="{{ news_articles[28]['title'] }}" target="_blank" title="">{{
+                                        news_articles[28]['title'] }}</a></h4>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[28]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[28]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[28]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[28]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[28]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[28]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[28]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[28]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px; color: white"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[28]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px; color: white"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end shadow-desc -->
+                    </div><!-- end shadow -->
+                </div><!-- end post-media -->
+            </div><!-- end second-side -->
+        </div><!-- end masonry -->
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                <div class="page-wrapper">
+                    <div class="blog-top clearfix">
+                        <h4 class="pull-left">Recent News <a href="#"><i class="fa fa-rss"></i></a></h4>
+                    </div><!-- end blog-top -->
+
+                    <div class="blog-list clearfix">
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ news_articles[29]['url'] }}" title="">
+                                        <img src="{{ news_articles[29]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ news_articles[29]['url'] }}" title="">{{ news_articles[29]['title']
+                                        }}</a></h4>
+                                <p>{{ news_articles[29]['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ news_articles[29]['category'].lower() }}" title="">{{
+                                        news_articles[29]['category'] }}</a></small>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[29]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[29]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[29]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[29]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[29]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[29]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[29]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[29]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[29]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+
+                        <hr class="invis">
+
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ news_articles[30]['url'] }}" title="">
+                                        <img src="{{ news_articles[30]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ news_articles[30]['url'] }}" title="">{{ news_articles[30]['title']
+                                        }}</a></h4>
+                                <p>{{ news_articles[30]['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ news_articles[30]['category'].lower() }}" title="">{{
+                                        news_articles[30]['category'] }}</a></small>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[30]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[30]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[30]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[30]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[30]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[30]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[30]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[30]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[30]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+
+                        <hr class="invis">
+
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ news_articles[31]['url'] }}" title="">
+                                        <img src="{{ news_articles[31]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ news_articles[31]['url'] }}" title="">{{ news_articles[31]['title']
+                                        }}</a></h4>
+                                <p>{{ news_articles[31]['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ news_articles[31]['category'].lower() }}" title="">{{
+                                        news_articles[31]['category'] }}</a></small>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[31]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[31]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[31]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[31]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[31]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[31]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[31]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[31]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[31]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+
+                        <hr class="invis">
+
+                        <div class="row">
+                            <div class="col-lg-10 offset-lg-1">
+                                <div class="banner-spot clearfix">
+                                    <div class="banner-img">
+                                        <img src="upload/banner_02.jpg" alt="" class="img-fluid">
+                                    </div><!-- end banner-img -->
+                                </div><!-- end banner -->
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+
+                        <hr class="invis">
+
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ news_articles[32]['url'] }}" title="">
+                                        <img src="{{ news_articles[32]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ news_articles[32]['url'] }}" title="">{{ news_articles[32]['title']
+                                        }}</a></h4>
+                                <p>{{ news_articles[32]['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ news_articles[32]['category'].lower() }}" title="">{{
+                                        news_articles[32]['category'] }}</a></small>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[32]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[32]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[32]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[32]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[32]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[32]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[32]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[32]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[32]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+
+                        <hr class="invis">
+
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ news_articles[33]['url'] }}" title="">
+                                        <img src="{{ news_articles[33]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ news_articles[33]['url'] }}" title="">{{ news_articles[33]['title']
+                                        }}</a></h4>
+                                <p>{{ news_articles[33]['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ news_articles[33]['category'].lower() }}" title="">{{
+                                        news_articles[33]['category'] }}</a></small>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[33]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[33]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[33]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[33]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[33]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[33]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[33]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[33]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[33]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+
+                        <hr class="invis">
+
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ news_articles[34]['url'] }}" title="">
+                                        <img src="{{ news_articles[34]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ news_articles[34]['url'] }}" title="">{{ news_articles[34]['title']
+                                        }}</a></h4>
+                                <p>{{ news_articles[34]['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ news_articles[34]['category'].lower() }}" title="">{{
+                                        news_articles[34]['category'] }}</a></small>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[34]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[34]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[34]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[34]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[34]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[34]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[34]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[34]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[34]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+
+                        <hr class="invis">
+
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ news_articles[35]['url'] }}" title="">
+                                        <img src="{{ news_articles[35]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ news_articles[35]['url'] }}" title="">{{ news_articles[35]['title']
+                                        }}</a></h4>
+                                <p>{{ news_articles[35]['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ news_articles[35]['category'].lower() }}" title="">{{
+                                        news_articles[35]['category'] }}</a></small>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[35]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[35]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[35]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[35]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[35]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[35]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[35]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[35]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[35]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+
+                        <hr class="invis">
+
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ news_articles[36]['url'] }}" title="">
+                                        <img src="{{ news_articles[36]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ news_articles[36]['url'] }}" title="">{{ news_articles[36]['title']
+                                        }}</a></h4>
+                                <p>{{ news_articles[36]['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ news_articles[36]['category'].lower() }}" title="">{{
+                                        news_articles[36]['category'] }}</a></small>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[36]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[36]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[36]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[36]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[36]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[36]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[36]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[36]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[36]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+
+                        <hr class="invis">
+
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ news_articles[37]['url'] }}" title="">
+                                        <img src="{{ news_articles[37]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ news_articles[37]['url'] }}" title="">{{ news_articles[37]['title']
+                                        }}</a></h4>
+                                <p>{{ news_articles[37]['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ news_articles[37]['category'].lower() }}" title="">{{
+                                        news_articles[37]['category'] }}</a></small>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[37]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[37]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[37]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[37]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[37]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[37]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[37]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[37]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[37]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+
+                        <hr class="invis">
+
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ news_articles[38]['url'] }}" title="">
+                                        <img src="{{ news_articles[38]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ news_articles[38]['url'] }}" title="">{{ news_articles[38]['title']
+                                        }}</a></h4>
+                                <p>{{ news_articles[38]['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ news_articles[38]['category'].lower() }}" title="">{{
+                                        news_articles[38]['category'] }}</a></small>
+                                <small><a href="tech-single.html" title="">{{
+                                        toDateTime(news_articles[38]['publishedAt']).strftime("%d %B, %Y")
+                                        }}</a></small>
+                                <small><a href="tech-author.html" title="">{{ news_articles[38]['author'] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        find_sentiment(news_articles[38]['content'], "subjectivity") }}</a></small>
+                                {% if fake_news_model(news_articles[38]['content']) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(news_articles[38]['content']) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(news_articles[38]['content']) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(news_articles[39]) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[39]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none"
+                                        value="{{ json.dumps(news_articles[39]) }}">
+                                    <input type="text" name="link" style="display: none" value="/3">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+                    </div><!-- end blog-list -->
+                </div><!-- end page-wrapper -->
+
+                <hr class="invis">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-start">
+                                <li class="page-item"><a class="page-link" href="/">1</a></li>
+                                <li class="page-item"><a class="page-link" href="/2">2</a></li>
+                                <li class="page-item"><a class="page-link" href="/3">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" disabled>Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end col -->
+
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                <div class="sidebar">
+                    <div class="widget">
+                        <div class="banner-spot clearfix">
+                            <div class="banner-img">
+                                <img src="{{ url_for('static', filename='images/ad.jpg') }}" alt="" class="img-fluid">
+                            </div><!-- end banner-img -->
+                        </div><!-- end banner -->
+                    </div><!-- end widget -->
+
+                    <div class="widget">
+                        <h2 class="widget-title">Trending {{top_articles1[0]['category'] }} Posts</h2>
+                        <div class="trend-videos">
+                            <div class="blog-box">
+                                <div class="post-media">
+                                    <a href="{{top_articles1[0]['url'] }}" title="">
+                                        <img src="{{ top_articles1[0]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect">
+                                            <span class="videohover"></span>
+                                        </div><!-- end hover -->
+                                    </a>
+                                </div><!-- end media -->
+                                <div class="blog-meta">
+                                    <h4><a href="{{top_articles1[0]['url'] }}" title="">{{top_articles1[0]['title']
+                                            }}</a></h4>
+                                </div><!-- end meta -->
+                            </div><!-- end blog-box -->
+
+                            <hr class="invis">
+
+                            <div class="blog-box">
+                                <div class="post-media">
+                                    <a href="{{top_articles1[1]['url'] }}" title="">
+                                        <img src="{{top_articles1[1]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect">
+                                            <span class="videohover"></span>
+                                        </div><!-- end hover -->
+                                    </a>
+                                </div><!-- end media -->
+                                <div class="blog-meta">
+                                    <h4><a href="{{top_articles1[1]['url'] }}" title="">{{top_articles1[1]['title']
+                                            }}</a></h4>
+                                </div><!-- end meta -->
+                            </div><!-- end blog-box -->
+
+                            <hr class="invis">
+
+                            <div class="blog-box">
+                                <div class="post-media">
+                                    <a href="{{top_articles1[2]['url'] }}" title="">
+                                        <img src="{{top_articles1[2]['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect">
+                                            <span class="videohover"></span>
+                                        </div><!-- end hover -->
+                                    </a>
+                                </div><!-- end media -->
+                                <div class="blog-meta">
+                                    <h4><a href="{{top_articles1[2]['url'] }}" title="">B{{top_articles1[2]['title']
+                                            }}</a></h4>
+                                </div><!-- end meta -->
+                            </div><!-- end blog-box -->
+                        </div><!-- end videos -->
+                    </div><!-- end widget -->
+
+                    <div class="widget">
+                        <h2 class="widget-title"> Popular {{ top_articles2[0]['category'] }} Posts</h2>
+                        <div class="blog-list-widget">
+                            <div class="list-group">
+                                <a href="{{ top_articles2[0]['url'] }}"
+                                    class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="w-100 justify-content-between">
+                                        <img src="{{top_articles2[0]['urlToImage'] }}" alt=""
+                                            class="img-fluid float-left">
+                                        <h5 class="mb-1">{{ top_articles2[0]['title'] }}</h5>
+                                        <small>{{ toDateTime(top_articles2[0]['publishedAt']).strftime("%d %B, %Y")
+                                            }}</small>
+                                    </div>
+                                </a>
+
+                                <a href="{{ top_articles2[1]['url'] }}"
+                                    class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="w-100 justify-content-between">
+                                        <img src="{{top_articles2[1]['urlToImage'] }}" alt=""
+                                            class="img-fluid float-left">
+                                        <h5 class="mb-1">{{top_articles2[1]['title'] }}</h5>
+                                        <small>{{ toDateTime(top_articles2[1]['publishedAt']).strftime("%d %B, %Y")
+                                            }}</small>
+                                    </div>
+                                </a>
+
+                                <a href="{{ top_articles2[2]['url'] }}"
+                                    class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="w-200 last-item justify-content-between">
+                                        <img src="{{top_articles2[2]['urlToImage'] }}" alt=""
+                                            class="img-fluid float-left">
+                                        <h5 class="mb-2">{{top_articles2[2]['title'] }}</h5>
+                                        <small>{{ toDateTime(top_articles2[2]['publishedAt']).strftime("%d %B, %Y")
+                                            }}</small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div><!-- end blog-list -->
+                    </div><!-- end widget -->
+
+
+                    <div class="widget">
+                        <h2 class="widget-title">Follow Us</h2>
+
+                        <div class="row text-center">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <a href="#" class="social-button facebook-button">
+                                    <i class="fa fa-facebook"></i>
+                                    <p>27k</p>
+                                </a>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <a href="#" class="social-button twitter-button">
+                                    <i class="fa fa-twitter"></i>
+                                    <p>98k</p>
+                                </a>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <a href="#" class="social-button google-button">
+                                    <i class="fa fa-google-plus"></i>
+                                    <p>17k</p>
+                                </a>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <a href="#" class="social-button youtube-button">
+                                    <i class="fa fa-youtube"></i>
+                                    <p>22k</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div><!-- end widget -->
+
+                    <div class="widget">
+                        <div class="banner-spot clearfix">
+                            <div class="banner-img">
+                                <img src="upload/banner_03.jpg" alt="" class="img-fluid">
+                            </div><!-- end banner-img -->
+                        </div><!-- end banner -->
+                    </div><!-- end widget -->
+                </div><!-- end sidebar -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section>
+
+{% endblock %}

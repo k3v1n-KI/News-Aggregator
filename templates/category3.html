@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block head %}
+<title>YourNews - Category</title>
+{% endblock %}
+
+{% block body %}
+<div class="page-title lb single-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <h2><i class="fa fa-gears bg-orange"></i> {{ category.title() }} <small
+                        class="hidden-xs-down hidden-sm-down">Nulla felis eros, varius sit amet volutpat non. </small>
+                </h2>
+            </div><!-- end col -->
+            <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Category</a></li>
+                    <li class="breadcrumb-item active">{{ category.title() }}</li>
+                </ol>
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end page-title -->
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                <div class="page-wrapper">
+                    <div class="blog-grid-system">
+                        <div class="row">
+                            {% for i in range(0, len(category_list), 2) %}
+                            <div class="col-md-6">
+                                <div class="blog-box">
+                                    <div class="post-media">
+                                        <a href="{{ category_list[i]['url'] }}" title="">
+                                            <img src="{{ category_list[i]['urlToImage'] }}" alt="" class="img-fluid">
+                                            <div class="hovereffect">
+                                                <span></span>
+                                            </div><!-- end hover -->
+                                        </a>
+                                    </div><!-- end media -->
+                                    <div class="blog-meta big-meta">
+                                        <span class="color-orange"><a href="/category/{{ category }}" title="">{{
+                                                category.title() }}</a></span>
+                                        <h4><a href="{{ category_list[i]['url'] }}" title="">{{
+                                                category_list[i]['title'] }}</a></h4>
+                                        <p>{{ category_list[i]['description'] }}</p>
+                                        <small><a href="tech-single.html" title="">{{
+                                                toDateTime(category_list[i]['publishedAt']).strftime("%d %B, %Y")
+                                                }}</a></small>
+                                        <small><a href="tech-author.html" title="">{{ category_list[i]['author']
+                                                }}</a></small>
+                                        <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                                find_sentiment(category_list[i]['content'], "subjectivity")
+                                                }}</a></small>
+                                        {% if check_article_save(category_list[i]) %}
+                                        <form class="form-wrapper" method="POST" action="/delete_save">
+                                            <input type="text" name="article" style="display: none"
+                                                value="{{ json.dumps(category_list[i]) }}">
+                                            <input type="text" name="link" style="display: none"
+                                                value="/category/{{ category }}/3">
+                                            <button type="submit"><small><i class="fa fa-bookmark"
+                                                        style="font-size:18px;"></i></small></button>
+                                        </form>
+                                        {% else %}
+                                        <form class="form-wrapper" method="POST" action="/save">
+                                            <input type="text" name="article" style="display: none"
+                                                value="{{ json.dumps(category_list[i]) }}">
+                                            <input type="text" name="link" style="display: none"
+                                                value="/category/{{ category }}/3">
+                                            <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                        style="font-size:18px;"></i></small></button>
+                                        </form>
+                                        {% endif %}
+                                    </div><!-- end meta -->
+                                </div><!-- end blog-box -->
+                            </div><!-- end col -->
+
+                            <div class="col-md-6">
+                                <div class="blog-box">
+                                    <div class="post-media">
+                                        <a href="t{{ category_list[i + 1]['url'] }}" title="">
+                                            <img src="{{ category_list[i + 1]['urlToImage'] }}" alt=""
+                                                class="img-fluid">
+                                            <div class="hovereffect">
+                                                <span></span>
+                                            </div><!-- end hover -->
+                                        </a>
+                                    </div><!-- end media -->
+                                    <div class="blog-meta big-meta">
+                                        <span class="color-orange"><a href="/category/{{ category }}" title="">{{
+                                                category.title() }}</a></span>
+                                        <h4><a href="{{ category_list[i + 1]['url'] }}" title="">{{ category_list[i +
+                                                1]['title'] }}</a></h4>
+                                        <p>{{ category_list[i + 1]['description'] }}</p>
+                                        <small><a href="tech-single.html" title="">{{ toDateTime(category_list[i +
+                                                1]['publishedAt']).strftime("%d %B, %Y") }}</a></small>
+                                        <small><a href="tech-author.html" title="">{{ category_list[i + 1]['author']
+                                                }}</a></small>
+                                        <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                                find_sentiment(category_list[i + 1]['content'], "subjectivity")
+                                                }}</a></small>
+                                        {% if check_article_save(category_list[i + 1]) %}
+                                        <form class="form-wrapper" method="POST" action="/delete_save">
+                                            <input type="text" name="article" style="display: none"
+                                                value="{{ json.dumps(category_list[i + 1]) }}">
+                                            <input type="text" name="link" style="display: none"
+                                                value="/category/{{ category }}">
+                                            <button type="submit"><small><i class="fa fa-bookmark"
+                                                        style="font-size:18px;"></i></small></button>
+                                        </form>
+                                        {% else %}
+                                        <form class="form-wrapper" method="POST" action="/save">
+                                            <input type="text" name="article" style="display: none"
+                                                value="{{ json.dumps(category_list[i + 1]) }}">
+                                            <input type="text" name="link" style="display: none"
+                                                value="/category/{{ category }}">
+                                            <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                        style="font-size:18px;"></i></small></button>
+                                        </form>
+                                        {% endif %}
+                                    </div><!-- end meta -->
+                                </div><!-- end blog-box -->
+                            </div><!-- end col -->
+                            {% endfor %}
+
+
+                        </div><!-- end row -->
+                    </div><!-- end blog-grid-system -->
+                </div><!-- end page-wrapper -->
+
+                <hr class="invis3">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-start">
+                                <li class="page-item"><a class="page-link" href="/category/{{ category }}">1</a></li>
+                                <li class="page-item"><a class="page-link" href="/category/{{ category }}/2">2</a></li>
+                                <li class="page-item"><a class="page-link" href="/category/{{ category }}/3">3</a></li>
+                                <li class="page-item"><a class="page-link" href="/category/{{ category }}/4">4</a></li>
+                                <li class="page-item"><a class="page-link" href="/category/{{ category }}/5">5</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section>
+
+{% endblock%}

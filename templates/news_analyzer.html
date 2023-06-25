@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block head %}
+<title>YourNews - Home</title>
+{% endblock %}
+
+{% block body %}
+        <br>
+        <br>
+        <br>
+        <div class="page-title lb single-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <h2>News Analyzer <small class="hidden-xs-down hidden-sm-down">Nulla felis eros, varius sit amet volutpat non. </small></h2>
+                    </div><!-- end col -->                  
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </div><!-- end page-title -->
+
+        <section class="section wb">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="page-wrapper">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <form class="form-wrapper" method="POST" action="/analyzer_process">
+                                        <div class="form-group blue-border-focus">
+                                            <!-- <label for="news">Colorful border on :focus state</label> -->
+                                            <textarea class="form-control" id="news" name="news" rows="20"></textarea>
+                                        </div>
+                                        <button type="submit" id="submit" class="btn btn-primary">Analyze</button>
+                                    </form>
+                                    <br>
+                                </div>
+                                <div class="col-lg-5">
+                                    <h4 id="polarity_heading" style="display: none;">Article Polarity</h4>
+                                    <p id="polarity" style="display: none;"><i class="fa fa-eye"></i></p>
+
+                                    <h4 id="bias_heading" style="display: none;">Article Bias</h4>
+                                    <p id="bias" style="display: none;"><i class="fa fa-eye"></i></p>
+                
+                                    <h4 id="predict_heading" style="display: none;">Article Credibility</h4>
+                                    <!-- <p>Etiam vulputate urna id libero auctor maximus. Nulla dignissim ligula diam, in sollicitudin ligula congue quis turpis dui urna nibhs. </p> -->
+                                    <p style="color: green; display: none;" id="real"><i class="fa fa-check-circle bg-green"></i> This article seems authentic</p>
+                                    <p style="color: red; display: none;"  id="fake"><i class="fa fa-close bg-red"></i> This article does not seem authentic</p>
+            
+                                    <!-- <h4>News Credibility</h4>
+                                    <p>Fusce dapibus nunc quis quam tempor vestibulum sit amet consequat enim. Pellentesque blandit hendrerit placerat. Integertis non.</p> -->
+                                </div>
+                                <!-- <div class="col-lg-7">
+                                    <form class="form-wrapper" method="POST">
+                                        <div class="form-group blue-border-focus">
+                                            <label for="news">Colorful border on :focus state</label>
+                                            <textarea class="form-control" id="news" name="news" rows="3"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Analyze</button>
+                                    </form>
+                                    <br>
+                                </div> -->
+                            </div>
+                        </div><!-- end page-wrapper -->
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section>
+        
+        {% block form %} <script src="{{ url_for('static', filename='js/form.js') }}"></script> {% endblock %}
+
+{% endblock %}
