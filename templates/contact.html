@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block head %}
+<title>YourNews - Contact Us</title>
+{% endblock %}
+
+{% block body %}
+<div class="page-title lb single-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <h2><i class="fa fa-envelope-open-o bg-orange"></i> Contact us <small
+                        class="hidden-xs-down hidden-sm-down">Nulla felis eros, varius sit amet volutpat non. </small>
+                </h2>
+            </div><!-- end col -->
+            <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">Contact</li>
+                </ol>
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end page-title -->
+
+<section class="section wb">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-wrapper">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <h4>Who we are?</h4>
+                            <p>YourNews is a personalized news website that brings you your preferred news from all
+                                around the world into an accessible and easy-to-use platform.</p>
+
+                            <h4>How do we help?</h4>
+                            <p>Our news website uses natural language processing techniques to detect media bias and
+                                fake news to give you more information about the article you are reading.</p>
+
+                            <h4>Our Goal</h4>
+                            <p>To create a media space where users can read truths about the happenings of the world
+                                without any external influence.</p>
+                        </div>
+                        <div class="col-lg-7">
+                            <p style="color: green">{{ success }}</p>
+                            <form class="form-wrapper" method="POST">
+                                <input type="text" class="form-control" name="name" placeholder="Your name">
+                                <input type="email" class="form-control" name="email" placeholder="Email address">
+                                <input type="tel" class="form-control" name="number" placeholder="Phone">
+                                <input type="text" class="form-control" name="subject" placeholder="Subject">
+                                <textarea class="form-control" name="message" placeholder="Your message"></textarea>
+                                <button type="submit" class="btn btn-primary">Send <i
+                                        class="fa fa-envelope-open-o"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- end page-wrapper -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section>
+{% endblock %}

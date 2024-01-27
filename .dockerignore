@@ -1,0 +1,8 @@
+Dockerfile
+*.pyc
+*.ipynb
+.idea
+.vscode
+__pycache__
+*.pyo
+*.pyd

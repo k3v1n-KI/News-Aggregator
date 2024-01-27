@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block head %}
+<title>YourNews - Account Details</title>
+{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<div class="page-title lb single-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <h2>Account Details</h2>
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end page-title -->
+
+<section class="section wb">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-wrapper">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                    {% for msg in messages %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>{{msg}}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+
+                            <form class="form-wrapper" method="POST">
+                                <input type="text" class="form-control" value="{{ user['first_name'] }}" name="first_name"
+                                    placeholder="First Name" required>
+                                <input type="text" class="form-control" value="{{ user['last_name'] }}" name="last_name"
+                                    placeholder="Last Name" required>
+                                <input type="email" class="form-control" value="{{ user['email'] }}" name="email"
+                                    placeholder="Email" required disabled>
+                                <div class="form-check">
+                                    <div class="form-check form-check-inline">
+                                        {% if "business" in user['preferences'] %}
+                                        <input type="checkbox" class="btn-check" name="preferences"
+                                            id="btn-check-outlined" checked value="business" autocomplete="off">
+                                        {% else %}
+                                        <input type="checkbox" class="btn-check" name="preferences"
+                                            id="btn-check-outlined" value="business" autocomplete="off">
+                                        {% endif %}
+                                        <label class="btn btn-outline-primary"
+                                            for="btn-check-outlined">Business</label><br>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        {% if "entertainment" in user['preferences'] %}
+                                        <input type="checkbox" class="btn-check" name="preferences"
+                                            id="btn-check-2-outlined" checked value="entertainment" autocomplete="off">
+                                        {% else %}
+                                        <input type="checkbox" class="btn-check" name="preferences"
+                                            id="btn-check-2-outlined" value="entertainment" autocomplete="off">
+                                        {% endif %}
+                                        <label class="btn btn-outline-primary"
+                                            for="btn-check-2-outlined">Entertainment</label><br>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        {% if "sports" in user['preferences'] %}
+                                        <input type="checkbox" class="btn-check" id="btn-check-3-outlined"
+                                            name="preferences" checked value="sports" autocomplete="off">
+                                        {% else %}
+                                        <input type="checkbox" class="btn-check" id="btn-check-3-outlined"
+                                            name="preferences" value="sports" autocomplete="off">
+                                        {% endif %}
+                                        <label class="btn btn-outline-primary"
+                                            for="btn-check-3-outlined">Sports</label><br>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        {% if "general" in user['preferences'] %}
+                                        <input type="checkbox" class="btn-check" id="btn-check-3-outlined"
+                                            name="preferences" checked value="general" autocomplete="off">
+                                        {% else %}
+                                        <input type="checkbox" class="btn-check" id="btn-check-3-outlined"
+                                            name="preferences" value="general" autocomplete="off">
+                                        {% endif %}
+                                        <label class="btn btn-outline-primary"
+                                            for="btn-check-3-outlined">General</label><br>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        {% if "technology" in user['preferences'] %}
+                                        <input type="checkbox" class="btn-check" id="btn-check-4-outlined"
+                                            name="preferences" checked value="technology" autocomplete="off">
+                                        {% else %}
+                                        <input type="checkbox" class="btn-check" id="btn-check-4-outlined"
+                                            name="preferences" value="technology" autocomplete="off">
+                                        {% endif %}
+                                        <label class="btn btn-outline-primary"
+                                            for="btn-check-4-outlined">Technology</label><br>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        {% if "health" in user['preferences'] %}
+                                        <input type="checkbox" class="btn-check" id="btn-check-6-outlined"
+                                            name="preferences" checked value="health" autocomplete="off">
+                                        {% else %}
+                                        <input type="checkbox" class="btn-check" id="btn-check-6-outlined"
+                                            name="preferences" value="health" autocomplete="off">
+                                        {% endif %}
+                                        <label class="btn btn-outline-primary"
+                                            for="btn-check-6-outlined">Health</label><br>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        {% if "science" in user['preferences'] %}
+                                        <input type="checkbox" class="btn-check" id="btn-check-7-outlined"
+                                            name="preferences" checked value="science" autocomplete="off">
+                                        {% else %}
+                                        <input type="checkbox" class="btn-check" id="btn-check-7-outlined"
+                                            name="preferences" value="science" autocomplete="off">
+                                        {% endif %}
+                                        <label class="btn btn-outline-primary"
+                                            for="btn-check-7-outlined">Science</label><br>
+                                    </div>
+                                </div>
+                                <button type="submit" id="submit" class="btn btn-primary">Save</button>
+                            </form>
+                            <br>
+                        </div>
+                    </div>
+                </div><!-- end page-wrapper -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section>
+<a href="/change_password_user" style="text-align: centre; width: 100%;" class="btn btn-danger">Change Password</a>
+{% endblock %}

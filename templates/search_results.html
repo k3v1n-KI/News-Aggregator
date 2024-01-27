@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block head %}
+<title>YourNews - Search Results</title>
+{% endblock %}
+
+{% block body %}
+<div class="page-title lb single-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <h2><i class="fa fa-star bg-orange"></i> Search Results for "{{ search }}" <small
+                        class="hidden-xs-down hidden-sm-down">Nulla felis eros, varius sit amet volutpat non. </small>
+                </h2>
+            </div><!-- end col -->
+            <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Search</a></li>
+                    <li class="breadcrumb-item active">"{{search}}"</li>
+                </ol>
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end page-title -->
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                <div class="page-wrapper">
+                    <div class="blog-list clearfix">
+                        {% for article in search_list %}
+                        <div class="blog-box row">
+                            <div class="col-md-4">
+                                <div class="post-media">
+                                    <a href="{{ article['url'] }}" title="">
+                                        <img src="{{ article['urlToImage'] }}" alt="" class="img-fluid">
+                                        <div class="hovereffect"></div>
+                                    </a>
+                                </div><!-- end media -->
+                            </div><!-- end col -->
+
+                            <div class="blog-meta big-meta col-md-8">
+                                <h4><a href="{{ article['url'] }}" title="">{{ article['title'] }}</a></h4>
+                                <p>{{ article['description'] }}</p>
+                                <small class="firstsmall"><a class="bg-orange"
+                                        href="/category/{{ get_category(article['source']['name']).title() }}" title="">{{
+                                        get_category(article["source"]["name"]).title() }}</a></small>
+                                <small><a href="tech-single.html" title="">{{ toDateTime(article['publishedAt']).strftime("%d
+                                        %B, %Y") }}</a></small>
+                                <small><a href="tech-author.html"
+                                          title="">{{ article["author"] }}</a></small>
+                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i>
+                                {{find_sentiment(article["url"], "subjectivity")}}</a></small>
+                                {% if fake_news_model(article["url"]) == "Verified Credibility" %}
+                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        {{ fake_news_model(article["url"]) }}</a></small>
+                                {% else %}
+                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        fake_news_model(article["url"]) }}</a></small>
+                                {% endif %}
+                                {% if check_article_save(article) %}
+                                <form class="form-wrapper" method="POST" action="/delete_save">
+                                    <input type="text" name="article" style="display: none" value="{{ json.dumps(article) }}">
+                                    <input type="text" name="link" style="display: none" value="/search/{{ search }}/{{page_number}}">
+                                    <button type="submit"><small><i class="fa fa-bookmark"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% else %}
+                                <form class="form-wrapper" method="POST" action="/save">
+                                    <input type="text" name="article" style="display: none" value="{{ json.dumps(article) }}">
+                                    <input type="text" name="link" style="display: none" value="/search/{{ search }}/{{page_number}}">
+                                    <button type="submit"><small><i class="fa fa-bookmark-o"
+                                                style="font-size:18px;"></i></small></button>
+                                </form>
+                                {% endif %}
+                            </div><!-- end meta -->
+                        </div><!-- end blog-box -->
+                        {% endfor %}
+
+                        <hr class="invis">
+
+
+                    </div><!-- end blog-list -->
+                </div><!-- end page-wrapper -->
+
+                <hr class="invis">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-start">
+                                {% for i in range(1, user["search_list_number_of_pages"] + 1) %}
+                                <li class="page-item"><a class="page-link" href="/search/{{ search }}/{{i}}">{{i}}</a></li>
+                                {% endfor %}
+                                <li class="page-item">
+                                    <a class="page-link" href="search/{{ search }}/{{page_number + 1}}">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section>
+{% endblock %}

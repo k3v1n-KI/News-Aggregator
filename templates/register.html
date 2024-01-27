@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Basic -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Mobile Metas -->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Site Metas -->
+<title>YourNews - Register</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Site Icons -->
+<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon" />
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+
+<!-- Design fonts -->
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+<!-- Bootstrap core CSS -->
+<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+
+<!-- FontAwesome Icons core CSS -->
+<link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+<!-- Responsive styles for this template -->
+<link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet">
+
+<!-- Colors for this template -->
+<link href="{{ url_for('static', filename='css/colors.css') }}" rel="stylesheet">
+
+<!-- Version Tech CSS for this template -->
+<link href="{{ url_for('static', filename='css/tech.css') }}" rel="stylesheet">
+
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<body>
+
+    <div id="wrapper">
+        <header class="tech-header header">
+            <div class="container-fluid">
+                <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+                    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <img src="{{ url_for('static', filename='images/your_news-transparent.png') }}" alt="">
+
+                </nav>
+            </div><!-- end container-fluid -->
+        </header><!-- end market-header -->
+
+        <br>
+        <br>
+        <br>
+        <div class="page-title lb single-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <h2>Sign Up</h2>
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </div><!-- end page-title -->
+
+        <section class="section wb">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="page-wrapper">
+                            <div class="row">
+                                <!-- <div class="col-lg-5">
+                                    <h4>Who we are</h4>
+                                    <p>Tech Blog is a personal blog for handcrafted, cameramade photography content, fashion styles from independent creatives around the world.</p>
+                   
+                                    <h4>How we help?</h4>
+                                    <p>Etiam vulputate urna id libero auctor maximus. Nulla dignissim ligula diam, in sollicitudin ligula congue quis turpis dui urna nibhs. </p>
+             
+                                    <h4>Pre-Sale Question</h4>
+                                    <p>Fusce dapibus nunc quis quam tempor vestibulum sit amet consequat enim. Pellentesque blandit hendrerit placerat. Integertis non.</p>
+                                </div> -->
+                                <div class="col-lg-7">
+                                    {% with messages = get_flashed_messages() %}
+                                        {% if messages %}
+                                            {% for msg in messages %}
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                  <strong>{{msg}}</strong>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endwith %}
+                                    <form class="form-wrapper" method="POST">
+                                        <label for="first_name">First Name</label><input type="text" class="form-control" id="first_name" name="first_name"
+                                                                               placeholder="First Name" required>
+                                        <label for="last_name">Last Name</label><input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name"
+                                                                              required>
+                                        <label for="email">Email</label><input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                                                          required>
+                                        <label for="password">Password</label><input type="password" class="form-control" onkeyup="format()" name="password"
+                                                                             id="password" placeholder="Password" required>
+                                        <p style="color: red;" id="err_length"></p>
+                                        <label for="c_password">Confirm Password</label><input type="password" class="form-control" onkeyup="confirm()"
+                                                                               name="c_password" id="c_password" placeholder="Confirm Password" required>
+                                        <p style="color: red;" id="err_confirm"></p>
+                                        <script>
+                                            function confirm() {
+                                                password = document.getElementById("password").value;
+                                                c_password = document.getElementById("c_password").value;
+                                                err_confirm = document.getElementById("err_confirm")
+                                                submit = document.getElementById("submit")
+                                                if (password != c_password) {
+                                                    err_confirm.innerHTML = "Passwords don't match";
+                                                    submit.disabled = true;
+                                                }
+                                                else {
+                                                    err_confirm.innerHTML = "";
+                                                    submit.disabled = false;
+                                                }
+
+                                            }
+                                            function format() {
+                                                password = document.getElementById("password").value;
+                                                err_length = document.getElementById("err_length")
+                                                if (password.length < 8) {
+                                                    err_length.innerHTML = "Password must be 8 charcters or more";
+                                                    submit.disabled = true;
+                                                }
+                                                else {
+                                                    err_length.innerHTML = "";
+                                                    submit.disabled = false;
+                                                }
+                                            }
+                                        </script>
+                                        <div class="form-check">
+                                            <div class="form-check form-check-inline">
+                                                <input type="checkbox" class="btn-check" name="preferences"
+                                                    id="btn-check-outlined" value="business" autocomplete="off">
+                                                <label class="btn btn-outline-primary"
+                                                    for="btn-check-outlined">Business</label><br>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="checkbox" class="btn-check" id="btn-check-2-outlined"
+                                                    value="entertainment" autocomplete="off">
+                                                <label class="btn btn-outline-primary"
+                                                    for="btn-check-2-outlined">Entertainment</label><br>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="checkbox" class="btn-check" name="preferences"
+                                                    id="btn-check-3-outlined" value="sports" autocomplete="off">
+                                                <label class="btn btn-outline-primary"
+                                                    for="btn-check-3-outlined">Sports</label><br>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="checkbox" class="btn-check" name="preferences"
+                                                    id="btn-check-4-outlined" value="technology" autocomplete="off">
+                                                <label class="btn btn-outline-primary"
+                                                    for="btn-check-4-outlined">Technology</label><br>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="checkbox" class="btn-check" name="preferences"
+                                                    id="btn-check-5-outlined" value="general" autocomplete="off">
+                                                <label class="btn btn-outline-primary"
+                                                    for="btn-check-5-outlined">General</label><br>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="checkbox" class="btn-check" name="preferences"
+                                                    id="btn-check-6-outlined" value="health" autocomplete="off">
+                                                <label class="btn btn-outline-primary"
+                                                    for="btn-check-6-outlined">Health</label><br>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="checkbox" class="btn-check" name="preferences"
+                                                    id="btn-check-7-outlined" value="science" autocomplete="off">
+                                                <label class="btn btn-outline-primary"
+                                                    for="btn-check-7-outlined">Science</label><br>
+                                            </div>
+                                        </div>
+                                        <button type="submit" id="submit" class="btn btn-primary">Sign Up</button>
+                                    </form>
+                                    <br>
+                                    <p>Have an account? <a href="/login">Login</a></p>
+                                </div>
+                            </div>
+                        </div><!-- end page-wrapper -->
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="widget">
+                            <div class="footer-text text-left">
+                                <a href="index.html"><img src="images/version/tech-footer-logo.png" alt=""
+                                        class="img-fluid"></a>
+                                <p>Tech Blog is a technology blog, we sharing marketing, news and gadget articles.</p>
+                                <div class="social">
+                                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i
+                                            class="fa fa-facebook"></i></a>
+                                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i
+                                            class="fa fa-twitter"></i></a>
+                                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i
+                                            class="fa fa-instagram"></i></a>
+                                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Google Plus"><i
+                                            class="fa fa-google-plus"></i></a>
+                                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i
+                                            class="fa fa-pinterest"></i></a>
+                                </div>
+
+                                <hr class="invis">
+                            </div><!-- end footer-text -->
+                        </div><!-- end widget -->
+                    </div><!-- end col -->
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <br>
+                            <div class="copyright">&copy; Tech Blog. Design: <a href="http://html.design">HTML
+                                    Design</a>.</div>
+                        </div>
+                    </div>
+                </div><!-- end container -->
+        </footer><!-- end footer -->
+
+        <div class="dmtop">Scroll to Top</div>
+
+    </div><!-- end wrapper -->
+
+    <!-- Core JavaScript
+    ================================================== -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tether.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+
+</body>
+
+</html>

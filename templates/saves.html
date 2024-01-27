@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block head %}
+<title>YourNews - Saved Articles</title>
+{% endblock %}
+
+{% block body %}
+        <div class="page-title lb single-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <h2><i class="fa fa-bookmark bg-orange"></i> Saved Articles<small class="hidden-xs-down hidden-sm-down">Nulla felis eros, varius sit amet volutpat non. </small></h2>
+                    </div><!-- end col -->
+                    <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">Saved Articles</li>
+                        </ol>
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </div><!-- end page-title -->
+
+        <section class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                        <div class="page-wrapper">
+                            <div class="blog-list clearfix">
+                                {% if is_empty %}
+                                <h4>Your saved articles will show up here</h4>
+                                {% else %}
+                                {% for i in saved_list %}
+                                    <div class="blog-box row">
+                                        <div class="col-md-4">
+                                            <div class="post-media">
+                                                <a href="{{ i['url'] }}" title="">
+                                                    <img src="{{ i['urlToImage'] }}" alt="" class="img-fluid">
+                                                    <div class="hovereffect"></div>
+                                                </a>
+                                            </div><!-- end media -->
+                                        </div><!-- end col -->
+
+                                        <div class="blog-meta big-meta col-md-8">
+                                            <h4><a href="{{ i['url'] }}" title="">{{ i['title'] }}</a></h4>
+                                            <p>{{ i['description'] }}</p>
+                                            <small class="firstsmall"><a class="bg-orange" href="/category/{{ i['category'] }}" title="">{{ i['category'].title() }}</a></small>
+                                            <small><a href="tech-single.html" title="">{{ toDateTime(i['publishedAt']).strftime("%d %B, %Y") }}</a></small>
+                                            <small><a href="tech-author.html" title="">{{ i['author'] }}</a></small>
+                                            <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{find_sentiment(i["url"], "subjectivity")}}</a></small>
+                                            {% if fake_news_model(i["url"]) == "Verified Credibility" %}
+                                            <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                                    {{ fake_news_model(i["url"]) }}</a></small>
+                                            {% else %}
+                                            <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                                    fake_news_model(i["url"]) }}</a></small>
+                                            {% endif %}
+                                            <form class="form-wrapper" method="POST" action="/delete_save">
+                                                <input type="text" name="article" style="display: none" value="{{ json.dumps(i) }}">
+                                                <input type="text" name="link" style="display: none" value="/saved_articles">
+                                                <button type="submit" id="save"><small><i class="fa fa-bookmark" style="font-size:18px;"></i></small></button>
+                                            </form>
+                                        </div><!-- end meta -->
+                                    </div><!-- end blog-box -->
+                                {% endfor %}
+                                {% endif %}
+
+                                <hr class="invis">
+
+
+                            </div><!-- end blog-list -->
+                        </div><!-- end page-wrapper -->
+
+                        <hr class="invis">
+
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section>
+
+{% endblock %}
