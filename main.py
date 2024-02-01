@@ -12,10 +12,12 @@ import pyrebase
 from dotenv import load_dotenv
 from datetime import datetime
 from flask_apscheduler import APScheduler
+import functions_framework
 
 API_KEY = "7286ead268a647f4b0bb296b4f1e0c5a"
 
 news_api = NewsApiClient(api_key=API_KEY)
+NO_USER = "Sign In"
 
 config = {
   "apiKey": "AIzaSyCPKnalll7RqtoEu4gNWqD3m8WpgozUNHs",
@@ -46,7 +48,7 @@ firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 auth = firebase.auth()
 fake_news_model = Model()
-app.jinja_env.globals.update(fake_news_model=fake_news_model.predict_news, find_sentiment=find_sentiment)
+app.jinja_env.globals.update(fake_news_model=fake_news_model.predict_news, find_sentiment=find_sentiment, no_user=NO_USER)
 
 
 sources_list = news_api.get_sources()
@@ -78,8 +80,9 @@ category_list = []
 search_list = []
 
 articles_fetched = False
-def get_articles():
+def get_articles(request):
     global articles_fetched
+    articles_fetched = False
     for category in categories:
         articles = []
         category_articles = news_api.get_top_headlines(category=category, language="en", page_size=100)["articles"]
@@ -95,12 +98,15 @@ def get_articles():
     db.child("articles").update({"Time Fetched": datetime.utcnow().strftime('%a, %B %d, %Y | %H:%M')})
         
     print(f"Articles Fetched at {datetime.utcnow().strftime('%a, %B %d, %Y | %H:%M')}")
-    articles_fetched = True        
+    articles_fetched = True
+    return request.get_json()        
 
 # get_articles()
 @app.route("/")
 def temp():
     if "user" in session:
+        if session["user"] == NO_USER:
+            return redirect(url_for("login"))
         return redirect("/1")
     return redirect(url_for("login"))
 
@@ -109,6 +115,8 @@ def temp():
 def home(page_number):
     global news_articles, preferences, email, saved
     if "user" in session:
+        if session["user"] == NO_USER:
+            return redirect(url_for("login"))
         email = session["user"]
         user_identifier = session["user_identifier"]
         user = db.child("users").child(user_identifier).get().val()
@@ -120,7 +128,6 @@ def home(page_number):
             if page_number == 1:
                 articles = []
                 for preference in preferences:
-                    print(preference)
                     user_preference_articles = db.child("articles").child(preference).get().val()[:20]
                     articles += user_preference_articles
                 random.shuffle(articles)
@@ -133,8 +140,7 @@ def home(page_number):
                 start_index = (page_number - 1) * 12
                 articles = user["articles"][start_index:]
                 print("DEBUGGING!!!!!!!!")
-                print(articles)
-                print(start_index)
+                print(user["number_of_pages"])
             else:
                 start_index = (page_number * 12) - 12
                 end_index = page_number * 12
@@ -158,6 +164,8 @@ def home(page_number):
 @app.route("/account", methods=["GET", "POST"])
 def account():
     if "user" in session:
+        if session["user"] == NO_USER:
+            return redirect(url_for("login"))
         user_id = session["user_identifier"]
         user = db.child("users").child(user_id).get().val()
         if request.method == "POST":
@@ -184,6 +192,8 @@ def account():
 def search(search_variable, page_number):
     global search_list
     if "user" in session:
+        if session["user"] == NO_USER:
+            return redirect(url_for("login"))
         user_identifier = session["user_identifier"]
         user = db.child("users").child(user_identifier).get().val()
         if request.method == "POST":
@@ -232,6 +242,8 @@ def change_password():
 @app.route("/saved_articles", methods=["GET", "POST"])
 def saved_articles():
     if "user" in session:
+        if session["user"] == NO_USER:
+            return redirect(url_for("login"))
         if request.method == "POST":
             search_entry = request.form.get("search")
             return redirect(f"/search/{search_entry}/1")
@@ -257,6 +269,8 @@ def saved_articles():
 @app.route("/save", methods=["POST"])
 def save():
     if "user" in session:
+        if session["user"] == NO_USER:
+            return redirect(url_for("login"))
         user_identifier = session["user_identifier"]
         article = json.loads(request.form.get("article"))
         link = request.form.get("link")
@@ -297,6 +311,8 @@ def delete_save():
 @app.route("/analyzer", methods=["GET"])
 def analyzer():
     if "user" in session:
+        if session["user"] == NO_USER:
+            return redirect(url_for("login"))
         analyze = False
         return render_template("news_analyzer.html", username=email, analyze=analyze)
     else:
@@ -319,6 +335,8 @@ def process():
 @app.route("/category/<category_variable>/<int:page_number>", methods=["GET", "POST"])
 def category(category_variable, page_number):
     if "user" in session:
+        if session["user"] == NO_USER:
+            return redirect(url_for("login"))
         if request.method == "POST":
             search_entry = request.form.get("search")
             return redirect(f"/search/{search_entry}/1")
@@ -350,36 +368,38 @@ def category(category_variable, page_number):
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
-    if "user" in session:
+    try:
         username_contact = session["user"]
-        if request.method == "POST":
-            search_entry = request.form.get("search")
-            if search_entry is not None:
-                return redirect(f"/search/{search_entry}/1")
-            else:
-                name = request.form.get("name")
-                email = request.form.get("email")
-                number = request.form.get("number")
-                subject = request.form.get("subject")
-                message = request.form.get("message")
-                e_msg = EmailMessage(
-                    f"User {session['user_identifier']} sent a message",
-                    f"""
-                     Name: {name}
-                     Email: {email}
-                     Number: {number}
-                     Subject: {subject}
-                     Message: {message}
-                    """,
-                    "knight550@fastmail.com",
-                    ["knight550@fastmail.com"]
-                )
-                e_msg.send()
-                return render_template("contact.html", username=username_contact, success="Your message has been sent.")
+    except KeyError:
+        session["user"] = NO_USER
+    username_contact = session["user"]
+    if request.method == "POST":
+        search_entry = request.form.get("search")
+        if search_entry is not None:
+            return redirect(f"/search/{search_entry}/1")
         else:
-            return render_template("contact.html", username=username_contact)
+            name = request.form.get("name")
+            email = request.form.get("email")
+            number = request.form.get("number")
+            subject = request.form.get("subject")
+            message = request.form.get("message")
+            e_msg = EmailMessage(
+                f"User {session['user_identifier']} sent a message",
+                f"""
+                    Name: {name}
+                    Email: {email}
+                    Number: {number}
+                    Subject: {subject}
+                    Message: {message}
+                """,
+                "knight550@fastmail.com",
+                ["knight550@fastmail.com"]
+            )
+            e_msg.send()
+            return render_template("contact.html", username=username_contact, success="Your message has been sent.")
     else:
-        return redirect("/login")
+        return render_template("contact.html", username=username_contact)
+
 
 
 @app.route("/delete")
@@ -427,14 +447,15 @@ def register():
     return render_template("register.html")
 
 
-@app.route("/article_request_scheduler")
+# @app.route("/article_request_scheduler", methods=["GET", "POST"])
+@functions_framework.http
 def article_request_scheduler(request):
     if articles_fetched:
-        pass
+        request_json = request.get_json()
     else:
-        get_articles()
+        request_json = get_articles(request)
     articles_fetched = False
-    return "Article Request Scheduler Successful"
+    return request_json
 
 
 @app.route("/logout")
@@ -447,7 +468,7 @@ def logout():
 
 
 if __name__ == "__main__":
-    scheduler.add_job(id="Article_Request", func=get_articles, trigger="cron", day_of_week="mon-sun", hour=3, minute=30)
-    scheduler.start()
+    # scheduler.add_job(id="Article_Request", func=get_articles, trigger="cron", day_of_week="mon-sun", hour=3, minute=30)
+    # scheduler.start()
     PORT = int(os.getenv("PORT")) if os.getenv("PORT") else 8080
     app.run(port=PORT,host='0.0.0.0',debug=True)

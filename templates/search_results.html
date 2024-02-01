@@ -14,8 +14,8 @@
             </div><!-- end col -->
             <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Search</a></li>
+                    <li class="breadcrumb-item"><a target="_blank" href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a target="_blank" href="#">Search</a></li>
                     <li class="breadcrumb-item active">"{{search}}"</li>
                 </ol>
             </div><!-- end col -->
@@ -33,7 +33,7 @@
                         <div class="blog-box row">
                             <div class="col-md-4">
                                 <div class="post-media">
-                                    <a href="{{ article['url'] }}" title="">
+                                    <a target="_blank" href="{{ article['url'] }}" title="">
                                         <img src="{{ article['urlToImage'] }}" alt="" class="img-fluid">
                                         <div class="hovereffect"></div>
                                     </a>
@@ -41,22 +41,22 @@
                             </div><!-- end col -->
 
                             <div class="blog-meta big-meta col-md-8">
-                                <h4><a href="{{ article['url'] }}" title="">{{ article['title'] }}</a></h4>
+                                <h4><a target="_blank" href="{{ article['url'] }}" title="">{{ article['title'] }}</a></h4>
                                 <p>{{ article['description'] }}</p>
-                                <small class="firstsmall"><a class="bg-orange"
+                                <small class="firstsmall"><a target="_blank" class="bg-orange"
                                         href="/category/{{ get_category(article['source']['name']).title() }}/1" title="">{{
                                         get_category(article["source"]["name"]).title() }}</a></small>
-                                <small><a href="tech-single.html" title="">{{ toDateTime(article['publishedAt']).strftime("%d
+                                <small><a target="_blank" href="#" title="">{{ toDateTime(article['publishedAt']).strftime("%d
                                         %B, %Y") }}</a></small>
-                                <small><a href="tech-author.html"
+                                <small><a target="_blank" href="#"
                                           title="">{{ article["author"] }}</a></small>
-                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i>
+                                <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i>
                                 {{find_sentiment(article["url"], "subjectivity")}}</a></small>
                                 {% if fake_news_model(article["url"]) == "Verified Credibility" %}
-                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
                                         {{ fake_news_model(article["url"]) }}</a></small>
                                 {% else %}
-                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                         fake_news_model(article["url"]) }}</a></small>
                                 {% endif %}
                                 {% if check_article_save(article) %}
@@ -91,10 +91,10 @@
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-start">
                                 {% for i in range(1, user["search_list_number_of_pages"] + 1) %}
-                                <li class="page-item"><a class="page-link" href="/search/{{ search }}/{{i}}">{{i}}</a></li>
+                                <li class="page-item"><a target="_blank" class="page-link" href="/search/{{ search }}/{{i}}">{{i}}</a></li>
                                 {% endfor %}
                                 <li class="page-item">
-                                    <a class="page-link" href="search/{{ search }}/{{page_number + 1}}">Next</a>
+                                    <a target="_blank" class="page-link" href="search/{{ search }}/{{page_number + 1}}">Next</a>
                                 </li>
                             </ul>
                         </nav>

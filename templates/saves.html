@@ -12,7 +12,7 @@
                     </div><!-- end col -->
                     <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a target="_blank" href="/">Home</a></li>
                             <li class="breadcrumb-item active">Saved Articles</li>
                         </ol>
                     </div><!-- end col -->
@@ -33,7 +33,7 @@
                                     <div class="blog-box row">
                                         <div class="col-md-4">
                                             <div class="post-media">
-                                                <a href="{{ i['url'] }}" title="">
+                                                <a target="_blank" href="{{ i['url'] }}" title="">
                                                     <img src="{{ i['urlToImage'] }}" alt="" class="img-fluid">
                                                     <div class="hovereffect"></div>
                                                 </a>
@@ -41,17 +41,17 @@
                                         </div><!-- end col -->
 
                                         <div class="blog-meta big-meta col-md-8">
-                                            <h4><a href="{{ i['url'] }}" title="">{{ i['title'] }}</a></h4>
+                                            <h4><a target="_blank" href="{{ i['url'] }}" title="">{{ i['title'] }}</a></h4>
                                             <p>{{ i['description'] }}</p>
-                                            <small class="firstsmall"><a class="bg-orange" href="/category/{{ i['category'] }}/1" title="">{{ i['category'].title() }}</a></small>
-                                            <small><a href="tech-single.html" title="">{{ toDateTime(i['publishedAt']).strftime("%d %B, %Y") }}</a></small>
-                                            <small><a href="tech-author.html" title="">{{ i['author'] }}</a></small>
-                                            <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{i["subjectivity"]}}</a></small>
+                                            <small class="firstsmall"><a target="_blank" class="bg-orange" href="/category/{{ i['category'] }}/1" title="">{{ i['category'].title() }}</a></small>
+                                            <small><a target="_blank" href="#" title="">{{ toDateTime(i['publishedAt']).strftime("%d %B, %Y") }}</a></small>
+                                            <small><a target="_blank" href="#" title="">{{ i['author'] }}</a></small>
+                                            <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i> {{i["subjectivity"]}}</a></small>
                                             {% if i["authentication"] == "Verified Credibility" %}
-                                            <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                            <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
                                                     {{ i["authentication"] }}</a></small>
                                             {% else %}
-                                            <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                            <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                                     i["authentication"] }}</a></small>
                                             {% endif %}
                                             <form class="form-wrapper" method="POST" action="/delete_save">

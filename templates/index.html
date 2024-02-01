@@ -13,20 +13,20 @@
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-orange"><a href="/category/{{ articles[0]['category'].lower() }}/1"
+                                <span class="bg-orange"><a target="_blank" href="/category/{{ articles[0]['category'].lower() }}/1"
                                         title="">{{ articles[0]['category'] }}</a></span>
-                                <h4><a href="{{ articles[0]['url'] }}" target="_blank" title="">{{
+                                <h4><a target="_blank" href="{{ articles[0]['url'] }}" target="_blank" title="">{{
                                         articles[0]['title'] }}</a></h4>
-                                <small><a href="tech-single.html" title="">{{
+                                <small><a target="_blank" href="#" title="">{{
                                         toDateTime(articles[0]['publishedAt']).strftime("%d %B, %Y") }}</a></small>
-                                <small><a href="tech-author.html" title="">{{ articles[0]['author'] }}</a></small>
-                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                <small><a target="_blank" href="#" title="">{{ articles[0]['author'] }}</a></small>
+                                <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i> {{
                                         articles[0]['subjectivity'] }}</a></small>
                                 {% if articles[0]['authentication'] == "Verified Credibility" %}
-                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
                                         {{ articles[0]['authentication'] }}</a></small>
-                                {% else %}
-                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                {% else %} 
+                                <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                         articles[0]['authentication'] }}</a></small>
                                 {% endif %}
                                 {%if check_article_save(articles[0])%}
@@ -58,20 +58,20 @@
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-orange"><a href="/category/{{ articles[1]['category'].lower() }}/1"
+                                <span class="bg-orange"><a target="_blank" href="/category/{{ articles[1]['category'].lower() }}/1"
                                         title="">{{ articles[1]['category'] }}</a></span>
-                                <h4><a href="{{ articles[1]['url'] }}" target="_blank" title="">{{
+                                <h4><a target="_blank" href="{{ articles[1]['url'] }}" target="_blank" title="">{{
                                         articles[1]['title'] }}</a></h4>
-                                <small><a href="tech-single.html" title="">{{
+                                <small><a target="_blank" href="#" title="">{{
                                         toDateTime(articles[1]['publishedAt']).strftime("%d %B, %Y") }}</a></small>
-                                <small><a href="tech-author.html" title="">{{ articles[1]['author'] }}</a></small>
-                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                <small><a target="_blank" href="#" title="">{{ articles[1]['author'] }}</a></small>
+                                <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i> {{
                                         articles[1]['subjectivity'] }}</a></small>
                                 {% if articles[1]['authentication'] == "Verified Credibility" %}
-                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
                                         {{ articles[1]['authentication'] }}</a></small>
                                 {% else %}
-                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                         articles[1]['authentication'] }}</a></small>
                                 {% endif %}
                                 {%if check_article_save(articles[1])%}
@@ -103,20 +103,20 @@
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-orange"><a href="/category/{{ articles[2]['category'].lower() }}/1"
+                                <span class="bg-orange"><a target="_blank" href="/category/{{ articles[2]['category'].lower() }}/1"
                                         title="">{{ articles[2]['category'] }}</a></span>
-                                <h4><a href="{{ articles[2]['title'] }}" target="_blank" title="">{{
+                                <h4><a target="_blank" href="{{ articles[2]['title'] }}" target="_blank" title="">{{
                                         articles[2]['title'] }}</a></h4>
-                                <small><a href="tech-single.html" title="">{{
+                                <small><a target="_blank" href="#" title="">{{
                                         toDateTime(articles[2]['publishedAt']).strftime("%d %B, %Y") }}</a></small>
-                                <small><a href="tech-author.html" title="">{{ articles[2]['author'] }}</a></small>
-                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                <small><a target="_blank" href="#" title="">{{ articles[2]['author'] }}</a></small>
+                                <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i> {{
                                         articles[2]['subjectivity'] }}</a></small>
                                 {% if articles[2]['authentication'] == "Verified Credibility" %}
-                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
                                         {{ articles[2]['authentication'] }}</a></small>
                                 {% else %}
-                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                         articles[2]['authentication'] }}</a></small>
                                 {% endif %}
                                 {%if check_article_save(articles[2])%}
@@ -151,7 +151,7 @@
             <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                 <div class="page-wrapper">
                     <div class="blog-top clearfix">
-                        <h4 class="pull-left">Recent News <a href="#"><i class="fa fa-rss"></i></a></h4>
+                        <h4 class="pull-left">Recent News <a target="_blank" href="#"><i class="fa fa-rss"></i></a></h4>
                     </div><!-- end blog-top -->
 
                     <div class="blog-list clearfix">
@@ -159,7 +159,7 @@
                         <div class="blog-box row">
                             <div class="col-md-4">
                                 <div class="post-media">
-                                    <a href="{{ article['url'] }}" title="">
+                                    <a target="_blank" href="{{ article['url'] }}" title="">
                                         <img src="{{ article['urlToImage'] }}" alt="" class="img-fluid">
                                         <div class="hovereffect"></div>
                                     </a>
@@ -167,21 +167,21 @@
                             </div><!-- end col -->
 
                             <div class="blog-meta big-meta col-md-8">
-                                <h4><a href="{{ article['url'] }}" title="">{{ article['title'] }}</a>
+                                <h4><a target="_blank" href="{{ article['url'] }}" title="">{{ article['title'] }}</a>
                                 </h4>
                                 <p>{{ article['description'] }}</p>
-                                <small class="firstsmall"><a class="bg-orange"
+                                <small class="firstsmall"><a target="_blank" class="bg-orange"
                                         href="/category/{{ article['category'].lower() }}/1" title="">{{
                                         article['category'] }}</a></small>
-                                <small><a href="tech-single.html" title="">{{
+                                <small><a target="_blank" href="#" title="">{{
                                         toDateTime(article['publishedAt']).strftime("%d %B, %Y") }}</a></small>
-                                <small><a href="tech-author.html" title="">{{ article['author'] }}</a></small>
-                                <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{ article['subjectivity'] }}</a></small>
+                                <small><a target="_blank" href="#" title="">{{ article['author'] }}</a></small>
+                                <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i> {{ article['subjectivity'] }}</a></small>
                                 {% if article['authentication'] == "Verified Credibility" %}
-                                <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
                                         {{ article['authentication'] }}</a></small>
                                 {% else %}
-                                <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                         article['authentication'] }}</a></small>
                                 {% endif %}
                                 {%if check_article_save(article)%}
@@ -246,7 +246,7 @@
                         <div class="trend-videos">
                             <div class="blog-box">
                                 <div class="post-media">
-                                    <a href="{{top_articles1[0]['url'] }}" title="">
+                                    <a target="_blank" href="{{top_articles1[0]['url'] }}" title="">
                                         <img src="{{ top_articles1[0]['urlToImage'] }}" alt="" class="img-fluid">
                                         <div class="hovereffect">
                                             <span class="videohover"></span>
@@ -254,7 +254,7 @@
                                     </a>
                                 </div><!-- end media -->
                                 <div class="blog-meta">
-                                    <h4><a href="{{top_articles1[0]['url'] }}" title="">{{top_articles1[0]['title']
+                                    <h4><a target="_blank" href="{{top_articles1[0]['url'] }}" title="">{{top_articles1[0]['title']
                                             }}</a></h4>
                                 </div><!-- end meta -->
                             </div><!-- end blog-box -->
@@ -263,7 +263,7 @@
 
                             <div class="blog-box">
                                 <div class="post-media">
-                                    <a href="{{top_articles1[1]['url'] }}" title="">
+                                    <a target="_blank" href="{{top_articles1[1]['url'] }}" title="">
                                         <img src="{{top_articles1[1]['urlToImage'] }}" alt="" class="img-fluid">
                                         <div class="hovereffect">
                                             <span class="videohover"></span>
@@ -271,7 +271,7 @@
                                     </a>
                                 </div><!-- end media -->
                                 <div class="blog-meta">
-                                    <h4><a href="{{top_articles1[1]['url'] }}" title="">{{top_articles1[1]['title']
+                                    <h4><a target="_blank" href="{{top_articles1[1]['url'] }}" title="">{{top_articles1[1]['title']
                                             }}</a></h4>
                                 </div><!-- end meta -->
                             </div><!-- end blog-box -->
@@ -280,7 +280,7 @@
 
                             <div class="blog-box">
                                 <div class="post-media">
-                                    <a href="{{top_articles1[2]['url'] }}" title="">
+                                    <a target="_blank" href="{{top_articles1[2]['url'] }}" title="">
                                         <img src="{{top_articles1[2]['urlToImage'] }}" alt="" class="img-fluid">
                                         <div class="hovereffect">
                                             <span class="videohover"></span>
@@ -288,7 +288,7 @@
                                     </a>
                                 </div><!-- end media -->
                                 <div class="blog-meta">
-                                    <h4><a href="{{top_articles1[2]['url'] }}" title="">B{{top_articles1[2]['title']
+                                    <h4><a target="_blank" href="{{top_articles1[2]['url'] }}" title="">B{{top_articles1[2]['title']
                                             }}</a></h4>
                                 </div><!-- end meta -->
                             </div><!-- end blog-box -->
@@ -299,7 +299,7 @@
                         <h2 class="widget-title"> Popular {{ top_category2.title() }} Posts</h2>
                         <div class="blog-list-widget">
                             <div class="list-group">
-                                <a href="{{ top_articles2[0]['url'] }}"
+                                <a target="_blank" href="{{ top_articles2[0]['url'] }}"
                                     class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="w-100 justify-content-between">
                                         <img src="{{top_articles2[0]['urlToImage'] }}" alt=""
@@ -310,7 +310,7 @@
                                     </div>
                                 </a>
 
-                                <a href="{{ top_articles2[1]['url'] }}"
+                                <a target="_blank" href="{{ top_articles2[1]['url'] }}"
                                     class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="w-100 justify-content-between">
                                         <img src="{{top_articles2[1]['urlToImage'] }}" alt=""
@@ -321,7 +321,7 @@
                                     </div>
                                 </a>
 
-                                <a href="{{ top_articles2[2]['url'] }}"
+                                <a target="_blank" href="{{ top_articles2[2]['url'] }}"
                                     class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="w-200 last-item justify-content-between">
                                         <img src="{{top_articles2[2]['urlToImage'] }}" alt=""
@@ -341,28 +341,28 @@
 
                         <div class="row text-center">
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                                <a href="#" class="social-button facebook-button">
+                                <a target="_blank" href="#" class="social-button facebook-button">
                                     <i class="fa fa-facebook"></i>
                                     <p>27k</p>
                                 </a>
                             </div>
 
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                                <a href="#" class="social-button twitter-button">
+                                <a target="_blank" href="#" class="social-button twitter-button">
                                     <i class="fa fa-twitter"></i>
                                     <p>98k</p>
                                 </a>
                             </div>
 
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                                <a href="#" class="social-button google-button">
+                                <a target="_blank" href="#" class="social-button google-button">
                                     <i class="fa fa-google-plus"></i>
                                     <p>17k</p>
                                 </a>
                             </div>
 
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                                <a href="#" class="social-button youtube-button">
+                                <a target="_blank" href="#" class="social-button youtube-button">
                                     <i class="fa fa-youtube"></i>
                                     <p>22k</p>
                                 </a>

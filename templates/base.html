@@ -79,12 +79,17 @@
                                         <div class="container">
                                             <div class="mega-menu-content clearfix">
                                                 <div class="tab">
+                                                    {% if session["user"] != no_user %}
                                                     <a href="/1"><button class="tablinks">Home</button></a>
                                                     <a href="/account"><button class="tablinks">Account
                                                             Details</button></a>
                                                     <a href="/saved_articles"><button class="tablinks">Saved
                                                             Articles</button></a>
                                                     <a href="/logout"><button class="tablinks">Logout</button></a>
+                                                    {% else %}
+                                                    <a href="/login"><button class="tablinks">Sign In</button></a>
+                                                    <a href="/register"><button class="tablinks">Register</button></a>
+                                                    {% endif %}
                                                 </div>
                                             </div><!-- end mega-menu-content -->
                                         </div>

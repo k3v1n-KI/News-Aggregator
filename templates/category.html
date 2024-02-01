@@ -14,8 +14,8 @@
             </div><!-- end col -->
             <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Category</a></li>
+                    <li class="breadcrumb-item"><a target="_blank" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a target="_blank" href="#">Category</a></li>
                     <li class="breadcrumb-item active">{{ category.title() }}</li>
                 </ol>
             </div><!-- end col -->
@@ -36,7 +36,7 @@
                             <div class="col-md-6">
                                 <div class="blog-box">
                                     <div class="post-media">
-                                        <a href="{{ category_list[article]['url'] }}" title="">
+                                        <a target="_blank" href="{{ category_list[article]['url'] }}" title="">
                                             <img src="{{ category_list[article]['urlToImage'] }}" alt="" class="img-fluid">
                                             <div class="hovereffect">
                                                 <span></span>
@@ -44,24 +44,24 @@
                                         </a>
                                     </div><!-- end media -->
                                     <div class="blog-meta big-meta">
-                                        <span class="color-orange"><a href="/category/{{ category }}/1" title="">{{
+                                        <span class="color-orange"><a target="_blank" href="/category/{{ category }}/1" title="">{{
                                                 category.title() }}</a></span>
-                                        <h4><a href="{{ category_list[article]['url'] }}" title="">{{
+                                        <h4><a target="_blank" href="{{ category_list[article]['url'] }}" title="">{{
                                                 category_list[article]['title'] }}</a></h4>
                                         <p>{{ category_list[article]['description'] }}</p>
-                                        <small><a href="tech-single.html" title="">{{
+                                        <small><a target="_blank" href="#" title="">{{
                                                 toDateTime(category_list[article]['publishedAt']).strftime("%d %B, %Y")
                                                 }}</a></small>
-                                        <small><a href="tech-author.html" title="">{{ category_list[article]['author']
+                                        <small><a target="_blank" href="#" title="">{{ category_list[article]['author']
                                                 }}</a></small>
-                                        <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i> {{
                                             category_list[article]['subjectivity']
                                                 }}</a></small>
                                         {% if category_list[article]['authentication'] == "Verified Credibility" %}
-                                        <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
                                                 {{ category_list[article]['authentication'] }}</a></small>
                                         {% else %}
-                                        <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                                 category_list[article]['authentication'] }}</a></small>
                                         {% endif %}
                                         {% if check_article_save(category_list[article]) %}
@@ -90,7 +90,7 @@
                             <div class="col-md-6">
                                 <div class="blog-box">
                                     <div class="post-media">
-                                        <a href="t{{ category_list[article + 1]['url'] }}" title="">
+                                        <a target="_blank" href="t{{ category_list[article + 1]['url'] }}" title="">
                                             <img src="{{ category_list[article + 1]['urlToImage'] }}" alt=""
                                                 class="img-fluid">
                                             <div class="hovereffect">
@@ -99,23 +99,23 @@
                                         </a>
                                     </div><!-- end media -->
                                     <div class="blog-meta big-meta">
-                                        <span class="color-orange"><a href="/category/{{ category }}" title="">{{
+                                        <span class="color-orange"><a target="_blank" href="/category/{{ category }}" title="">{{
                                                 category.title() }}</a></span>
-                                        <h4><a href="{{ category_list[article + 1]['url'] }}" title="">{{ category_list[article +
+                                        <h4><a target="_blank" href="{{ category_list[article + 1]['url'] }}" title="">{{ category_list[article +
                                                 1]['title'] }}</a></h4>
                                         <p>{{ category_list[article + 1]['description'] }}</p>
-                                        <small><a href="tech-single.html" title="">{{ toDateTime(category_list[article +
+                                        <small><a target="_blank" href="#" title="">{{ toDateTime(category_list[article +
                                                 1]['publishedAt']).strftime("%d %B, %Y") }}</a></small>
-                                        <small><a href="tech-author.html" title="">{{ category_list[article + 1]['author']
+                                        <small><a target="_blank" href="#" title="">{{ category_list[article + 1]['author']
                                                 }}</a></small>
-                                        <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
+                                        <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i> {{
                                             category_list[article + 1]['subjectivity']
                                         }}</a></small>
                                         {% if category_list[article + 1]['authentication'] == "Verified Credibility" %}
-                                        <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
+                                        <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
                                                 {{ category_list[article + 1]['authentication'] }}</a></small>
                                         {% else %}
-                                        <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
+                                        <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                                 category_list[article + 1]['authentication'] }}</a></small>
                                         {% endif %}
                                         {% if check_article_save(category_list[article + 1]) %}
@@ -154,11 +154,11 @@
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-start">
                                 {% for i in range(1, user["category_list_number_of_pages"] + 1) %}
-                                <li class="page-item"><a class="page-link" href="/category/{{ category }}/{{i}}">{{i}}</a></li>
+                                <li class="page-item"><a target="_blank" class="page-link" href="/category/{{ category }}/{{i}}">{{i}}</a></li>
                                 {% endfor %}
                                 {% if user["category_list_number_of_pages"] - 1 != page_number %}
                                     <li class="page-item">
-                                        <a class="page-link" href="category/{{ category }}/{{page_number + 1}}">Next</a>
+                                        <a target="_blank" class="page-link" href="category/{{ category }}/{{page_number + 1}}">Next</a>
                                     </li>
                                 {% endif %}
                             </ul>
