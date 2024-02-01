@@ -450,12 +450,13 @@ def register():
 # @app.route("/article_request_scheduler", methods=["GET", "POST"])
 @functions_framework.http
 def article_request_scheduler(request):
+    global articles_fetched
     if articles_fetched:
         request_json = request.get_json()
     else:
         request_json = get_articles(request)
     articles_fetched = False
-    return request_json
+    return "Articles fetched successfully"
 
 
 @app.route("/logout")
