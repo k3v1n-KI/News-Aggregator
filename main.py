@@ -77,6 +77,7 @@ categories = ["business", "entertainment", "general", "health", "science", "tech
 category_list = []
 search_list = []
 
+articles_fetched = False
 def get_articles():
     for category in categories:
         articles = []
@@ -92,7 +93,8 @@ def get_articles():
         db.child("articles").child(category).set(articles)
     db.child("articles").update({"Time Fetched": datetime.utcnow().strftime('%a, %B %d, %Y | %H:%M')})
         
-    print(f"Articles Fetched at {datetime.utcnow().strftime('%a, %B %d, %Y | %H:%M')}")        
+    print(f"Articles Fetched at {datetime.utcnow().strftime('%a, %B %d, %Y | %H:%M')}")
+    articles_fetched = True        
 
 # get_articles()
 @app.route("/")
@@ -425,8 +427,13 @@ def register():
 
 
 @app.route("/article_request_scheduler")
-def article_request_scheduler():
-    return "Article Request Scheduler"
+def article_request_scheduler(request):
+    if articles_fetched:
+        pass
+    else:
+        get_articles()
+    articles_fetched = False
+    return "Article Request Scheduler Successful"
 
 
 @app.route("/logout")
