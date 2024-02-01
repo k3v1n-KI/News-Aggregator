@@ -424,9 +424,9 @@ def register():
     return render_template("register.html")
 
 
-@app.route("/test")
+@app.route("/article_request_scheduler")
 def test():
-    return render_template("tech-category-02.html")
+    return "Article Request Scheduler"
 
 
 @app.route("/logout")
