@@ -425,7 +425,7 @@ def register():
 
 
 @app.route("/article_request_scheduler")
-def test():
+def article_request_scheduler():
     return "Article Request Scheduler"
 
 
