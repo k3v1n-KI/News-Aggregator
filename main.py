@@ -7,9 +7,11 @@ from requests import HTTPError
 from sentiment import find_sentiment
 from fake_news_detector.fake_news_detector import Model
 from flask_mailman import Mail, EmailMessage
-from utilities import db_user_identifier, user_dict, get_content, toDateTime
+from utilities import db_user_identifier, user_dict, toDateTime
 import pyrebase
 from dotenv import load_dotenv
+from datetime import datetime
+from flask_apscheduler import APScheduler
 
 API_KEY = "7286ead268a647f4b0bb296b4f1e0c5a"
 
@@ -27,6 +29,7 @@ config = {
 }
 
 app = Flask(__name__)
+scheduler = APScheduler(app=app)
 load_dotenv()
 app.config["DEBUG"] = os.environ.get("FLASK_DEBUG")
 app.config["MAIL_SERVER"] = "smtp.fastmail.com"
@@ -70,12 +73,28 @@ news_articles = []
 preferences = []
 saved = ""
 email = ""
-categories = ["business, entertainment",
-              "general", "health", "science", "technology"]
+categories = ["business", "entertainment", "general", "health", "science", "technology", "sports"]
 category_list = []
 search_list = []
 
+def get_articles():
+    for category in categories:
+        articles = []
+        category_articles = news_api.get_top_headlines(category=category, language="en", page_size=100)["articles"]
+        for article in category_articles:
+            article["category"] = category.title()
+            article["authentication"] = fake_news_model.predict_news(article["url"])
+            article["subjectivity"] = find_sentiment(article["url"], "subjectivity")
+            article["author"] = "N/A" if article["author"] is None else article["author"]
+            article["urlToImage"] = "/static/images/no_image_available.jpg" if (
+                    article["urlToImage"] is None) else article["urlToImage"]
+            articles.append(article)
+        db.child("articles").child(category).set(articles)
+    db.child("articles").update({"Time Fetched": datetime.utcnow().strftime('%a, %B %d, %Y | %H:%M')})
+        
+    print(f"Articles Fetched at {datetime.utcnow().strftime('%a, %B %d, %Y | %H:%M')}")        
 
+# get_articles()
 @app.route("/")
 def temp():
     if "user" in session:
@@ -98,17 +117,14 @@ def home(page_number):
             if page_number == 1:
                 articles = []
                 for preference in preferences:
-                    for article in news_api.get_top_headlines(category=preference, language="en")["articles"]:
-                        article["category"] = preference.title()
-                        article["authentication"] = fake_news_model.predict_news(article["url"])
-                        article["subjectivity"] = find_sentiment(article["url"], "subjectivity")
-                        article["author"] = "N/A" if article["author"] is None else article["author"]
-                        article["urlToImage"] = url_for("static", filename="images/no_image_available.jpg") if (
-                                article["urlToImage"] is None) else article["urlToImage"]
-                        articles.append(article)
-                article_info = {"articles": articles, "article_count": len(articles), "articles_from": "feed"}
-                article_info["number_of_pages"] = int(article_info["article_count"] / 12) + 1
-                db.child("users").child(user_identifier).update(article_info)
+                    print(preference)
+                    user_preference_articles = db.child("articles").child(preference).get().val()[:20]
+                    articles += user_preference_articles
+                random.shuffle(articles)
+                articles_info = {"articles": articles, "article_count": len(articles), "articles_from": "feed"}
+                articles_info["number_of_pages"] = int(articles_info["article_count"] / 12) + 1
+                session["articles_info"] = articles_info
+                db.child("users").child(user_identifier).update(articles_info)
                 random.shuffle(articles)
             elif page_number == user["number_of_pages"]:
                 start_index = (page_number - 1) * 12
@@ -170,7 +186,7 @@ def search(search_variable, page_number):
         if request.method == "POST":
             search_variable = request.form.get("search")
             search_list = news_api.get_everything(
-                q=f"{search_variable}", page_size=100)["articles"]
+                q=f"{search_variable}", language="en", page_size=100)["articles"]
         if page_number == 1:
             search_list = news_api.get_everything(
                 q=f"{search_variable}", page_size=100)["articles"]
@@ -251,6 +267,8 @@ def save():
                 article["category"] = temp[2]
             else:
                 article["category"] = get_category(article["source"]["name"])
+                article["authentication"] = fake_news_model.predict_news(article["url"])
+                article["subjectivity"] = find_sentiment(article["url"], "subjectivity")
         saved_dict = db.child("users").child(user_identifier).child("saved").get().val()
         try:
             saved_dict[article["publishedAt"]] = article
@@ -305,8 +323,7 @@ def category(category_variable, page_number):
             user_identifier = session["user_identifier"]
             user = db.child("users").child(user_identifier).get().val()
             if page_number == 1:
-                category_list = news_api.get_top_headlines(
-                    category=f'{category_variable.lower()}', language="en", page_size=100)["articles"]
+                category_list = db.child("articles").child(category_variable).get().val()
                 category_info = {"category_list": category_list, "category_list_count": len(category_list)}
                 category_info["category_list_number_of_pages"] = int(category_info["category_list_count"] / 12) + 1
                 db.child("users").child(user_identifier).update(category_info)
@@ -321,8 +338,8 @@ def category(category_variable, page_number):
                     category_list = category_list[:12]
             
             return render_template("category.html", category_list=category_list, category=category_variable,
-                                   user=user, toDateTime=toDateTime, len=len, find_sentiment=find_sentiment,
-                                   check_article_save=check_article_save, json=json, page_number=page_number)
+                                   user=user, toDateTime=toDateTime, len=len, check_article_save=check_article_save, 
+                                   json=json, page_number=page_number)
     else:
         return redirect("/login")
 
@@ -422,5 +439,7 @@ def logout():
 
 
 if __name__ == "__main__":
+    scheduler.add_job(id="Article_Request", func=get_articles, trigger="cron", day_of_week="mon-sun", hour=3, minute=30)
+    scheduler.start()
     PORT = int(os.getenv("PORT")) if os.getenv("PORT") else 8080
     app.run(port=PORT,host='0.0.0.0',debug=True)

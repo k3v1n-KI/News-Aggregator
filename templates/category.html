@@ -44,7 +44,7 @@
                                         </a>
                                     </div><!-- end media -->
                                     <div class="blog-meta big-meta">
-                                        <span class="color-orange"><a href="/category/{{ category }}" title="">{{
+                                        <span class="color-orange"><a href="/category/{{ category }}/1" title="">{{
                                                 category.title() }}</a></span>
                                         <h4><a href="{{ category_list[article]['url'] }}" title="">{{
                                                 category_list[article]['title'] }}</a></h4>
@@ -55,14 +55,14 @@
                                         <small><a href="tech-author.html" title="">{{ category_list[article]['author']
                                                 }}</a></small>
                                         <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
-                                                find_sentiment(category_list[article]['url'], "subjectivity")
+                                            category_list[article]['subjectivity']
                                                 }}</a></small>
-                                        {% if fake_news_model(category_list[article]['url']) == "Verified Credibility" %}
+                                        {% if category_list[article]['authentication'] == "Verified Credibility" %}
                                         <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
-                                                {{ fake_news_model(category_list[article]['url']) }}</a></small>
+                                                {{ category_list[article]['authentication'] }}</a></small>
                                         {% else %}
                                         <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
-                                                fake_news_model(category_list[article]['url']) }}</a></small>
+                                                category_list[article]['authentication'] }}</a></small>
                                         {% endif %}
                                         {% if check_article_save(category_list[article]) %}
                                         <form class="form-wrapper" method="POST" action="/delete_save">
@@ -109,14 +109,14 @@
                                         <small><a href="tech-author.html" title="">{{ category_list[article + 1]['author']
                                                 }}</a></small>
                                         <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> {{
-                                        find_sentiment(category_list[article + 1]['url'], "subjectivity")
+                                            category_list[article + 1]['subjectivity']
                                         }}</a></small>
-                                        {% if fake_news_model(category_list[article + 1]['url']) == "Verified Credibility" %}
+                                        {% if category_list[article + 1]['authentication'] == "Verified Credibility" %}
                                         <small><a href="tech-author.html" title=""> <i class="fa fa-check-circle bg-green"></i>
-                                                {{ fake_news_model(category_list[article + 1]['url']) }}</a></small>
+                                                {{ category_list[article + 1]['authentication'] }}</a></small>
                                         {% else %}
                                         <small><a href="tech-author.html" title=""> <i class="	fa fa-close bg-red"></i> {{
-                                                fake_news_model(category_list[article + 1]['url']) }}</a></small>
+                                                category_list[article + 1]['authentication'] }}</a></small>
                                         {% endif %}
                                         {% if check_article_save(category_list[article + 1]) %}
                                         <form class="form-wrapper" method="POST" action="/delete_save">
@@ -156,9 +156,11 @@
                                 {% for i in range(1, user["category_list_number_of_pages"] + 1) %}
                                 <li class="page-item"><a class="page-link" href="/category/{{ category }}/{{i}}">{{i}}</a></li>
                                 {% endfor %}
-                                <li class="page-item">
-                                    <a class="page-link" href="category/{{ category }}/{{page_number + 1}}">Next</a>
-                                </li>
+                                {% if user["category_list_number_of_pages"] - 1 != page_number %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="category/{{ category }}/{{page_number + 1}}">Next</a>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </nav>
                     </div><!-- end col -->

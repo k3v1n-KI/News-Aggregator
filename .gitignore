@@ -4,4 +4,6 @@ __pycache__/
 .idea
 .vscode
 *.pyo
+*.csv
 *.pyd
+test.ipynb

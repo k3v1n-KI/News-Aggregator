@@ -44,7 +44,7 @@
                                 <h4><a href="{{ article['url'] }}" title="">{{ article['title'] }}</a></h4>
                                 <p>{{ article['description'] }}</p>
                                 <small class="firstsmall"><a class="bg-orange"
-                                        href="/category/{{ get_category(article['source']['name']).title() }}" title="">{{
+                                        href="/category/{{ get_category(article['source']['name']).title() }}/1" title="">{{
                                         get_category(article["source"]["name"]).title() }}</a></small>
                                 <small><a href="tech-single.html" title="">{{ toDateTime(article['publishedAt']).strftime("%d
                                         %B, %Y") }}</a></small>

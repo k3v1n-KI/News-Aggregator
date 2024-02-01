@@ -21,12 +21,9 @@ def preprocessor(text):
 
 class Model:
     def __init__(self) -> None:
-        self.model_file_name = "fake_news_detector/model_final"
+        self.model_file_name = "fake_news_detector/fake_news_detection_model.keras"
         self.tokenizer_file_name = "fake_news_detector/tokenizer"
-        another_strategy = tf.distribute.MirroredStrategy()
-        with another_strategy.scope():
-            load_options = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
-            self.model_tf = tf.keras.models.load_model(self.model_file_name, options=load_options)
+        self.model_tf = tf.keras.models.load_model(self.model_file_name)
         self.tokenizer = pickle.load(open(self.tokenizer_file_name, "rb"))
 
     def predict_news(self, article, content=False):
