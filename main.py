@@ -79,6 +79,7 @@ search_list = []
 
 articles_fetched = False
 def get_articles():
+    global articles_fetched
     for category in categories:
         articles = []
         category_articles = news_api.get_top_headlines(category=category, language="en", page_size=100)["articles"]
