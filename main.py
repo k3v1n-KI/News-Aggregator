@@ -13,6 +13,9 @@ from dotenv import load_dotenv
 from datetime import datetime
 from flask_apscheduler import APScheduler
 import functions_framework
+import nltk
+
+nltk.data.path.append("/nltk_data")
 
 API_KEY = "7286ead268a647f4b0bb296b4f1e0c5a"
 
@@ -80,12 +83,12 @@ category_list = []
 search_list = []
 
 articles_fetched = False
-def get_articles(request):
+def get_articles1(request):
     global articles_fetched
     articles_fetched = False
-    for category in categories:
+    for category in categories[:3]:
         articles = []
-        category_articles = news_api.get_top_headlines(category=category, language="en", page_size=100)["articles"]
+        category_articles = news_api.get_top_headlines(category=category, language="en", page_size=60)["articles"]
         for article in category_articles:
             article["category"] = category.title()
             article["authentication"] = fake_news_model.predict_news(article["url"])
@@ -95,13 +98,13 @@ def get_articles(request):
                     article["urlToImage"] is None) else article["urlToImage"]
             articles.append(article)
         db.child("articles").child(category).set(articles)
-    db.child("articles").update({"Time Fetched": datetime.utcnow().strftime('%a, %B %d, %Y | %H:%M')})
+    db.child("articles").update({"Time Fetched": datetime.now().strftime('%a, %B %d, %Y | %I:%M %p')})
         
-    print(f"Articles Fetched at {datetime.utcnow().strftime('%a, %B %d, %Y | %H:%M')}")
+    print(f"Articles Fetched at {datetime.now().strftime('%a, %B %d, %Y | %I:%M %p')}")
     articles_fetched = True
     return request.get_json()        
 
-# get_articles()
+# get_articles1()
 @app.route("/")
 def temp():
     if "user" in session:
@@ -454,7 +457,7 @@ def article_request_scheduler(request):
     if articles_fetched:
         request_json = request.get_json()
     else:
-        request_json = get_articles(request)
+        request_json = get_articles1(request)
     articles_fetched = False
     return "Articles fetched successfully"
 
