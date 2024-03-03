@@ -6,13 +6,11 @@ from newsapi import NewsApiClient
 from requests import HTTPError
 from sentiment import find_sentiment
 from fake_news_detector.fake_news_detector import Model
-from flask_mailman import Mail, EmailMessage
+# from flask_mailman import Mail, EmailMessage
+from flask_mail import Mail, Message
 from utilities import db_user_identifier, user_dict, toDateTime
 import pyrebase
 from dotenv import load_dotenv
-from datetime import datetime
-from flask_apscheduler import APScheduler
-import functions_framework
 import nltk
 
 nltk.data.path.append("/nltk_data")
@@ -34,14 +32,13 @@ config = {
 }
 
 app = Flask(__name__)
-scheduler = APScheduler(app=app)
 load_dotenv()
 app.config["DEBUG"] = os.environ.get("FLASK_DEBUG")
-app.config["MAIL_SERVER"] = "smtp.fastmail.com"
+app.config["MAIL_SERVER"] = "smtp.google.com"
 app.config["MAIL_PORT"] = 465
-app.config["MAIL_USERNAME"] = "knight550@fastmail.com"
-app.config["MAIL_PASSWORD"] = "9tvv5el4cyq3a57d"
-app.config["MAIL_DEFAULT_SENDER"] = ("YourNews", "knight550@fastmail.com")
+app.config["MAIL_USERNAME"] = "knightp550@gmail.com"
+app.config["MAIL_PASSWORD"] = "ritkmpgbhwrrdlut"
+app.config["MAIL_DEFAULT_SENDER"] = ("YourNews", "knightp550@gmail.com")
 app.config["MAIL_USE_TLS"] = False
 app.config["MAIL_USE_SSL"] = True
 app.secret_key = "Something weird"
@@ -81,30 +78,8 @@ email = ""
 categories = ["business", "entertainment", "general", "health", "science", "technology", "sports"]
 category_list = []
 search_list = []
-
-articles_fetched = False
-def get_articles1(request):
-    global articles_fetched
-    articles_fetched = False
-    for category in categories[:3]:
-        articles = []
-        category_articles = news_api.get_top_headlines(category=category, language="en", page_size=60)["articles"]
-        for article in category_articles:
-            article["category"] = category.title()
-            article["authentication"] = fake_news_model.predict_news(article["url"])
-            article["subjectivity"] = find_sentiment(article["url"], "subjectivity")
-            article["author"] = "N/A" if article["author"] is None else article["author"]
-            article["urlToImage"] = "/static/images/no_image_available.jpg" if (
-                    article["urlToImage"] is None) else article["urlToImage"]
-            articles.append(article)
-        db.child("articles").child(category).set(articles)
-    db.child("articles").update({"Time Fetched": datetime.now().strftime('%a, %B %d, %Y | %I:%M %p')})
         
-    print(f"Articles Fetched at {datetime.now().strftime('%a, %B %d, %Y | %I:%M %p')}")
-    articles_fetched = True
-    return request.get_json()        
 
-# get_articles1()
 @app.route("/")
 def temp():
     if "user" in session:
@@ -386,19 +361,20 @@ def contact():
             number = request.form.get("number")
             subject = request.form.get("subject")
             message = request.form.get("message")
-            e_msg = EmailMessage(
-                f"User {session['user_identifier']} sent a message",
-                f"""
+            e_msg = Message(
+                subject=subject,
+                recipients=["knightp550@gmail.com"],
+                sender="knightp550@gmail.com"
+            )
+            e_msg.body = f"""
                     Name: {name}
                     Email: {email}
                     Number: {number}
                     Subject: {subject}
                     Message: {message}
-                """,
-                "knight550@fastmail.com",
-                ["knight550@fastmail.com"]
-            )
-            e_msg.send()
+                """
+            
+            mail.send(e_msg)
             return render_template("contact.html", username=username_contact, success="Your message has been sent.")
     else:
         return render_template("contact.html", username=username_contact)
@@ -450,18 +426,6 @@ def register():
     return render_template("register.html")
 
 
-# @app.route("/article_request_scheduler", methods=["GET", "POST"])
-@functions_framework.http
-def article_request_scheduler(request):
-    global articles_fetched
-    if articles_fetched:
-        request_json = request.get_json()
-    else:
-        request_json = get_articles1(request)
-    articles_fetched = False
-    return "Articles fetched successfully"
-
-
 @app.route("/logout")
 def logout():
     session.pop("user", None)
@@ -472,7 +436,5 @@ def logout():
 
 
 if __name__ == "__main__":
-    # scheduler.add_job(id="Article_Request", func=get_articles, trigger="cron", day_of_week="mon-sun", hour=3, minute=30)
-    # scheduler.start()
     PORT = int(os.getenv("PORT")) if os.getenv("PORT") else 8080
     app.run(port=PORT,host='0.0.0.0',debug=True)
