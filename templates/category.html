@@ -59,7 +59,7 @@
                                                 }}</a></small>
                                         {% if category_list[article]['authentication'] == "Verified Credibility" %}
                                         <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
-                                                {{ category_list[article]['authentication'] }}</a></small>
+                                                {{ category_list[article]['authentication'] }} - {{  category_list[article]['auth_confidence'] }}% sure</a></small>
                                         {% else %}
                                         <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                                 category_list[article]['authentication'] }}</a></small>
@@ -113,7 +113,7 @@
                                         }}</a></small>
                                         {% if category_list[article + 1]['authentication'] == "Verified Credibility" %}
                                         <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
-                                                {{ category_list[article + 1]['authentication'] }}</a></small>
+                                                {{ category_list[article + 1]['authentication'] }} - {{ category_list[article + 1]['auth_confidence'] }}% sure</a></small>
                                         {% else %}
                                         <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                                 category_list[article + 1]['authentication'] }}</a></small>

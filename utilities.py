@@ -1,5 +1,6 @@
-from newspaper import Article, ArticleException
+import trafilatura
 from datetime import datetime
+import time
 
 def db_user_identifier(email: str):
     index = email.index("@")
@@ -18,17 +19,16 @@ def user_dict(first_name, last_name, email, preferences, user_id):
     }
 
 
-def get_content(url):
-    try:
-        article = Article(url.strip())
-        article.download()
-        article.parse()
-        article.nlp()
-        if article.text == "" or article.text is None or len(article.text) == 0:
-            return None
-        return article.text
-    except ArticleException:
-        return None
+def get_content(url, retries=3, delay=2):
+    for i in range(retries):
+        try:
+            downloaded = trafilatura.fetch_url(url, timeout=10)
+            if downloaded:
+                return trafilatura.extract(downloaded)
+        except Exception as e:
+            print(f"[Retry {i+1}] Failed to fetch {url}: {e}")
+            time.sleep(delay)
+    return None
 
 
 def toDateTime(date_string):

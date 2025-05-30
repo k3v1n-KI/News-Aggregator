@@ -5,31 +5,34 @@ from flask import Flask, render_template, session, request, redirect, url_for, j
 from newsapi import NewsApiClient
 from requests import HTTPError
 from sentiment import find_sentiment
-from fake_news_detector.fake_news_detector import Model
-# from flask_mailman import Mail, EmailMessage
+from fake_news_detector.fn_detector import FakeNewsDetector
 from flask_mail import Mail, Message
 from utilities import db_user_identifier, user_dict, toDateTime
 import pyrebase
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 import nltk
+
+dotenv_path = find_dotenv()
+load_dotenv(dotenv_path)
 
 nltk.data.path.append("/nltk_data")
 
-API_KEY = "7286ead268a647f4b0bb296b4f1e0c5a"
+API_KEY = os.getenv("NEWS_API_KEY")
 
 news_api = NewsApiClient(api_key=API_KEY)
 NO_USER = "Sign In"
 
 config = {
-  "apiKey": "AIzaSyCPKnalll7RqtoEu4gNWqD3m8WpgozUNHs",
-  "authDomain": "e-voting-559ca.firebaseapp.com",
-  "databaseURL": "https://e-voting-559ca-default-rtdb.firebaseio.com",
+  "apiKey": os.getenv("FIREBASE_API_KEY"),
+  "authDomain": os.getenv("FIREBASE_AUTH_DOMAIN"),
+  "databaseURL": os.getenv("FIREBASE_DB_URL"),
   "projectId": "e-voting-559ca",
-  "storageBucket": "e-voting-559ca.appspot.com",
+  "storageBucket": os.getenv("FIREBASE_STORAGE_BUCKET"),
   "messagingSenderId": "1093868121149",
   "appId": "1:1093868121149:web:10a21eb0214e9964ee0e54",
   "measurementId": "G-LBTBH1Z3CQ"
 }
+
 
 app = Flask(__name__)
 load_dotenv()
@@ -47,8 +50,8 @@ mail.init_app(app)
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 auth = firebase.auth()
-fake_news_model = Model()
-app.jinja_env.globals.update(fake_news_model=fake_news_model.predict_news, find_sentiment=find_sentiment, no_user=NO_USER)
+fake_news_model = FakeNewsDetector('fake_news_detector/models/fake_news_rnn_model.pth', 'fake_news_detector/models/tokenizer')
+app.jinja_env.globals.update(fake_news_model=fake_news_model.predict, find_sentiment=find_sentiment, no_user=NO_USER)
 
 
 sources_list = news_api.get_sources()
@@ -127,8 +130,8 @@ def home(page_number):
             preferences.remove(top_category1)
             top_category2 = random.choice(preferences)
             preferences.append(top_category1)
-            top_articles1 = news_api.get_top_headlines(category=top_category1, language="en", page=3)["articles"]
-            top_articles2 = news_api.get_top_headlines(category=top_category2, language="en", page=3)["articles"]
+            top_articles1 = db.child("articles").child(top_category1).get().val()[:3]
+            top_articles2 = db.child("articles").child(top_category2).get().val()[:3]
             if page_number == 1:
                 articles = articles[:12]
             return render_template("index.html", page_number=page_number, articles=articles,
@@ -261,8 +264,9 @@ def save():
             if temp[1] == "category":
                 article["category"] = temp[2]
             else:
+                prediction = fake_news_model.predict(article["url"], is_content=False)
                 article["category"] = get_category(article["source"]["name"])
-                article["authentication"] = fake_news_model.predict_news(article["url"])
+                article["authentication"] = f"Verified Credinility - {prediction['confidence']}% sure" if prediction["prediction"] == 1 else f"Unverified Credinility - {prediction['confidence']}% sure"
                 article["subjectivity"] = find_sentiment(article["url"], "subjectivity")
         saved_dict = db.child("users").child(user_identifier).child("saved").get().val()
         try:
@@ -302,11 +306,11 @@ def process():
     news = request.form.get("news")
     sentiment_subjectivity = find_sentiment(news, "subjectivity", content=True)
     sentiment_polarity = find_sentiment(news, "polarity", content=True)
-    fake_news_detect = fake_news_model.predict_news(news, content=True)
+    prediction = fake_news_model.predict(news, is_content=True)
     return jsonify({
         "bias": f"This article seems {sentiment_subjectivity}",
         "polarity": f"It reads as {sentiment_polarity}",
-        "fake_news_detect": fake_news_detect,
+        "fake_news_detect": f"Verified Credinility - {prediction['confidence']}% sure" if prediction["prediction"] == 1 else f"Unverified Credinility - {prediction['confidence']}% sure",
     })
 
 

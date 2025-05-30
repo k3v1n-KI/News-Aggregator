@@ -19,6 +19,7 @@ COPY . ./
 
 # Install production dependencies.
 RUN pip install -r requirements.txt
+RUN python -m textblob.download_corpora
 RUN python -m nltk.downloader all -d /usr/local/nltk_data
 
 # Run the web service on container startup. Here we use the gunicorn
