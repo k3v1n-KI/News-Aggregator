@@ -342,5 +342,5 @@ def logout():
 
 
 if __name__ == "__main__":
-    PORT = int(os.getenv("PORT")) if os.getenv("PORT") else 5000
+    PORT = int(os.getenv("PORT")) if os.getenv("PORT") else 8080
     app.run(port=PORT, host='0.0.0.0', debug=True)
