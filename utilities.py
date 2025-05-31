@@ -1,5 +1,7 @@
-from newspaper import Article, ArticleException
+import trafilatura
+import time
 from datetime import datetime
+import requests
 
 def db_user_identifier(email: str):
     index = email.index("@")
@@ -18,17 +20,21 @@ def user_dict(first_name, last_name, email, preferences, user_id):
     }
 
 
-def get_content(url):
-    try:
-        article = Article(url.strip())
-        article.download()
-        article.parse()
-        article.nlp()
-        if article.text == "" or article.text is None or len(article.text) == 0:
-            return None
-        return article.text
-    except ArticleException:
-        return None
+def get_content(url, max_retries=3, timeout=5):
+    headers = {"User-Agent": "Mozilla/5.0"}
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, timeout=timeout, headers=headers)
+            if response.status_code == 200:
+                return response.text
+            else:
+                print(f"[Attempt {attempt + 1}] Non-200 response: {response.status_code}")
+        except requests.exceptions.RequestException as e:
+            print(f"[Attempt {attempt + 1}] Error fetching URL: {e}")
+        if attempt == 2:
+            print("Max retries reached. Moving on")
+        time.sleep(0.5)
+    return None
 
 
 def toDateTime(date_string):

@@ -5,75 +5,62 @@ from flask import Flask, render_template, session, request, redirect, url_for, j
 from newsapi import NewsApiClient
 from requests import HTTPError
 from sentiment import find_sentiment
-from fake_news_detector.fake_news_detector import Model
-# from flask_mailman import Mail, EmailMessage
+from fake_news_detector.fn_detector import FakeNewsDetector
 from flask_mail import Mail, Message
 from utilities import db_user_identifier, user_dict, toDateTime
 import pyrebase
-from dotenv import load_dotenv
-import nltk
+from dotenv import find_dotenv, load_dotenv
 
-nltk.data.path.append("/nltk_data")
+# Load env vars
+load_dotenv(find_dotenv())
 
-API_KEY = "7286ead268a647f4b0bb296b4f1e0c5a"
 
-news_api = NewsApiClient(api_key=API_KEY)
-NO_USER = "Sign In"
 
-config = {
-  "apiKey": "AIzaSyCPKnalll7RqtoEu4gNWqD3m8WpgozUNHs",
-  "authDomain": "e-voting-559ca.firebaseapp.com",
-  "databaseURL": "https://e-voting-559ca-default-rtdb.firebaseio.com",
-  "projectId": "e-voting-559ca",
-  "storageBucket": "e-voting-559ca.appspot.com",
-  "messagingSenderId": "1093868121149",
-  "appId": "1:1093868121149:web:10a21eb0214e9964ee0e54",
-  "measurementId": "G-LBTBH1Z3CQ"
-}
-
+# App setup
 app = Flask(__name__)
-load_dotenv()
-app.config["DEBUG"] = os.environ.get("FLASK_DEBUG")
-app.config["MAIL_SERVER"] = "smtp.google.com"
-app.config["MAIL_PORT"] = 465
-app.config["MAIL_USERNAME"] = "knightp550@gmail.com"
-app.config["MAIL_PASSWORD"] = "ritkmpgbhwrrdlut"
-app.config["MAIL_DEFAULT_SENDER"] = ("YourNews", "knightp550@gmail.com")
-app.config["MAIL_USE_TLS"] = False
-app.config["MAIL_USE_SSL"] = True
-app.secret_key = "Something weird"
-mail = Mail()
-mail.init_app(app)
-firebase = pyrebase.initialize_app(config)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "Something weird")
+app.config.update(
+    DEBUG=os.getenv("FLASK_DEBUG"),
+    MAIL_SERVER="smtp.google.com",
+    MAIL_PORT=465,
+    MAIL_USERNAME=os.getenv("MAIL_USERNAME"),
+    MAIL_PASSWORD=os.getenv("MAIL_PASSWORD"),
+    MAIL_DEFAULT_SENDER=("YourNews", os.getenv("MAIL_USERNAME")),
+    MAIL_USE_TLS=False,
+    MAIL_USE_SSL=True
+)
+NO_USER = "Sign in"
+# Initialize
+mail = Mail(app)
+firebase = pyrebase.initialize_app({
+    "apiKey": os.getenv("FIREBASE_API_KEY"),
+    "authDomain": os.getenv("FIREBASE_AUTH_DOMAIN"),
+    "databaseURL": os.getenv("FIREBASE_DB_URL"),
+    "projectId": "e-voting-559ca",
+    "storageBucket": os.getenv("FIREBASE_STORAGE_BUCKET"),
+    "messagingSenderId": "1093868121149",
+    "appId": "1:1093868121149:web:10a21eb0214e9964ee0e54",
+    "measurementId": "G-LBTBH1Z3CQ"
+})
 db = firebase.database()
 auth = firebase.auth()
-fake_news_model = Model()
-app.jinja_env.globals.update(fake_news_model=fake_news_model.predict_news, find_sentiment=find_sentiment, no_user=NO_USER)
+news_api = NewsApiClient(api_key=os.getenv("NEWS_API_KEY"))
+fake_news_model = FakeNewsDetector('fake_news_detector/models/fake_news_rnn_model.pth',
+                                   'fake_news_detector/models/tokenizer')
+app.jinja_env.globals.update(
+    fake_news_model=fake_news_model.predict,
+    find_sentiment=find_sentiment,
+    no_user="Sign In"
+)
 
-
-sources_list = news_api.get_sources()
-sources = {}
-for i in sources_list["sources"]:
-    sources[i["name"]] = i["category"]
-
+# Load categories once
+sources = {src["name"]: src["category"] for src in news_api.get_sources()["sources"]}
 
 def get_category(article_source):
-    try:
-        return sources[article_source]
-    except KeyError:
-        return "general"
-
-
-def check_article_save(article):
-    print(db.child("users").child(session["user_identifier"]).child("saved").child(article["publishedAt"]).get().val())
-    saved_article = db.child("users").child(session["user_identifier"]).child("saved").child(article["publishedAt"]).get().val()
-    if saved_article is None: return False
-    return True
-
+    return sources.get(article_source, "general")
 
 news_articles = []
 preferences = []
-saved = ""
 email = ""
 categories = ["business", "entertainment", "general", "health", "science", "technology", "sports"]
 category_list = []
@@ -82,88 +69,76 @@ search_list = []
 
 @app.route("/")
 def temp():
-    if "user" in session:
-        if session["user"] == NO_USER:
-            return redirect(url_for("login"))
-        return redirect("/1")
-    return redirect(url_for("login"))
-
+    return redirect("/1") if session.get("user") != "Sign In" else redirect(url_for("login"))
 
 @app.route("/<int:page_number>", methods=["GET", "POST"])
 def home(page_number):
-    global news_articles, preferences, email, saved
-    if "user" in session:
-        if session["user"] == NO_USER:
-            return redirect(url_for("login"))
-        email = session["user"]
-        user_identifier = session["user_identifier"]
-        user = db.child("users").child(user_identifier).get().val()
-        if request.method == "POST":
-            search_entry = request.form.get("search")
-            return redirect(f"/search/{search_entry}/1")
-        else:
-            preferences = user["preferences"]
-            if page_number == 1:
-                articles = []
-                for preference in preferences:
-                    user_preference_articles = db.child("articles").child(preference).get().val()[:20]
-                    articles += user_preference_articles
-                random.shuffle(articles)
-                articles_info = {"articles": articles, "article_count": len(articles), "articles_from": "feed"}
-                articles_info["number_of_pages"] = int(articles_info["article_count"] / 12) + 1
-                session["articles_info"] = articles_info
-                db.child("users").child(user_identifier).update(articles_info)
-                random.shuffle(articles)
-            elif page_number == user["number_of_pages"]:
-                start_index = (page_number - 1) * 12
-                articles = user["articles"][start_index:]
-                print("DEBUGGING!!!!!!!!")
-                print(user["number_of_pages"])
-            else:
-                start_index = (page_number * 12) - 12
-                end_index = page_number * 12
-                articles = user["articles"][start_index:end_index]
-            top_category1 = random.choice(preferences)
-            preferences.remove(top_category1)
-            top_category2 = random.choice(preferences)
-            preferences.append(top_category1)
-            top_articles1 = news_api.get_top_headlines(category=top_category1, language="en", page=3)["articles"]
-            top_articles2 = news_api.get_top_headlines(category=top_category2, language="en", page=3)["articles"]
-            if page_number == 1:
-                articles = articles[:12]
-            return render_template("index.html", page_number=page_number, articles=articles,
-                                   toDateTime=toDateTime, top_category1=top_category1, top_category2=top_category2,
-                                   top_articles1=top_articles1, top_articles2=top_articles2,
-                                   check_article_save=check_article_save, json=json, user=user)
-    else:
+    if session.get("user") == "Sign In":
         return redirect(url_for("login"))
+    
+    user_identifier = session["user_identifier"]
+    user = db.child("users").child(user_identifier).get().val()
+    
+    if request.method == "POST":
+        return redirect(f"/search/{request.form.get('search')}/1")
+    
+    preferences = user.get("preferences", [])
+    articles = []
+    
+    if page_number == 1:
+        # Fetch and combine top 20 from each preferred category
+        article_snapshots = {cat: db.child("articles").child(cat).get().val()[:20] for cat in preferences}
+        for cat_articles in article_snapshots.values():
+            articles.extend(cat_articles)
+        random.shuffle(articles)
+        article_info = {"articles": articles, "article_count": len(articles), "articles_from": "feed"}
+        article_info["number_of_pages"] = (len(articles) + 11) // 12
+        db.child("users").child(user_identifier).update(article_info)
+        articles = articles[:12]
+    else:
+        user_articles = user.get("articles", [])
+        start = (page_number - 1) * 12
+        end = start + 12
+        articles = user_articles[start:end]
+
+    top_category1 = random.choice(preferences)
+    preferences.remove(top_category1)
+    top_category2 = random.choice(preferences) if preferences else top_category1
+    preferences.append(top_category1)
+
+    top_articles1 = db.child("articles").child(top_category1).get().val()[:3]
+    top_articles2 = db.child("articles").child(top_category2).get().val()[:3]
+
+    return render_template("index.html", page_number=page_number, articles=articles,
+                           toDateTime=toDateTime, top_category1=top_category1, top_category2=top_category2,
+                           top_articles1=top_articles1, top_articles2=top_articles2,
+                           json=json, user=user)
 
 
 @app.route("/account", methods=["GET", "POST"])
 def account():
-    if "user" in session:
-        if session["user"] == NO_USER:
-            return redirect(url_for("login"))
-        user_id = session["user_identifier"]
-        user = db.child("users").child(user_id).get().val()
-        if request.method == "POST":
-            search_entry = request.form.get("search")
-            if search_entry is not None:
-                return redirect(f"/search/{search_entry}/1")
-            else:
-                first_name = request.form.get("first_name")
-                last_name = request.form.get("last_name")
-                preferences = request.form.getlist("preferences")
-                user_update_dict = user_dict(first_name, last_name, session["user"], preferences, user_id)
-                db.child("users").child(user_id).update(user_update_dict)
-                session["user"] = request.form.get("email")
-                flash("Account information updated sucessfully!")
-                return render_template("account.html", user=user, username=email,
-                                       success="Account details updated successfully!")
-        else:
-            return render_template("account.html", user=user)
-    else:
-        return redirect("/login")
+    if session.get("user") == "Sign In":
+        return redirect(url_for("login"))
+
+    user_id = session["user_identifier"]
+    user = db.child("users").child(user_id).get().val()
+
+    if request.method == "POST":
+        search_entry = request.form.get("search")
+        if search_entry:
+            return redirect(f"/search/{search_entry}/1")
+        updated_user = user_dict(
+            request.form.get("first_name"),
+            request.form.get("last_name"),
+            session["user"],
+            request.form.getlist("preferences"),
+            user_id
+        )
+        db.child("users").child(user_id).update(updated_user)
+        flash("Account information updated successfully!")
+        return render_template("account.html", user=updated_user)
+    
+    return render_template("account.html", user=user)
 
 
 @app.route("/search/<search_variable>/<int:page_number>", methods=["GET", "POST"])
@@ -195,7 +170,7 @@ def search(search_variable, page_number):
                 search_list = search_list[:12]
         return render_template("search_results.html", page_number=page_number, search_list=search_list, search=search_variable,
                                 username=user_identifier, toDateTime=toDateTime, get_category=get_category, user=user,
-                                find_sentiment=find_sentiment, check_article_save=check_article_save, json=json)
+                                find_sentiment=find_sentiment, json=json)
             
     else:
         return redirect("/login")
@@ -217,75 +192,6 @@ def change_password():
     else:
         return render_template("change_password.html")
 
-@app.route("/saved_articles", methods=["GET", "POST"])
-def saved_articles():
-    if "user" in session:
-        if session["user"] == NO_USER:
-            return redirect(url_for("login"))
-        if request.method == "POST":
-            search_entry = request.form.get("search")
-            return redirect(f"/search/{search_entry}/1")
-        else:
-            email = session["user"]
-            is_empty = False
-            load_saves = db.child("users").child(db_user_identifier(email)).child("saved").get().each()
-            if load_saves is None or len(load_saves) == 0:
-                is_empty = True
-                return render_template("saves.html", username=email, is_empty=is_empty)
-            if type(load_saves) is not list:
-                load_saves = load_saves.split("*delimiter*")
-            saved_list = []
-            for article in load_saves:
-                saved_list.append(article.val())
-            return render_template("saves.html", username=email, saved_list=saved_list, is_empty=is_empty,
-                                   toDateTime=toDateTime, get_category=get_category, find_sentiment=find_sentiment,
-                                   json=json)
-    else:
-        return redirect("/login")
-
-
-@app.route("/save", methods=["POST"])
-def save():
-    if "user" in session:
-        if session["user"] == NO_USER:
-            return redirect(url_for("login"))
-        user_identifier = session["user_identifier"]
-        article = json.loads(request.form.get("article"))
-        link = request.form.get("link")
-        try:
-            temp = article["category"]
-        except:
-            temp = link.split("/")
-            print("SAVE DEBUGGING STARTS HERE !!!")
-            print(temp)
-            if temp[1] == "category":
-                article["category"] = temp[2]
-            else:
-                article["category"] = get_category(article["source"]["name"])
-                article["authentication"] = fake_news_model.predict_news(article["url"])
-                article["subjectivity"] = find_sentiment(article["url"], "subjectivity")
-        saved_dict = db.child("users").child(user_identifier).child("saved").get().val()
-        try:
-            saved_dict[article["publishedAt"]] = article
-            db.child("users").child(user_identifier).update({"saved": saved_dict})
-        except TypeError:
-            saved_dict = {article["publishedAt"]: article}
-            db.child("users").child(user_identifier).child("saved").set(saved_dict)
-        
-        return redirect(link)
-    else:
-        return redirect("/login")
-
-
-@app.route("/delete_save", methods=["POST"])
-def delete_save():
-    user_identifier = session["user_identifier"]
-    article = json.loads(request.form.get("article"))
-    link = request.form.get("link")
-    db.child("users").child(user_identifier).child("saved").child(article["publishedAt"]).remove()
-    return redirect(link)
-
-
 @app.route("/analyzer", methods=["GET"])
 def analyzer():
     if "user" in session:
@@ -302,11 +208,11 @@ def process():
     news = request.form.get("news")
     sentiment_subjectivity = find_sentiment(news, "subjectivity", content=True)
     sentiment_polarity = find_sentiment(news, "polarity", content=True)
-    fake_news_detect = fake_news_model.predict_news(news, content=True)
+    prediction = fake_news_model.predict(news, is_content=True)
     return jsonify({
         "bias": f"This article seems {sentiment_subjectivity}",
         "polarity": f"It reads as {sentiment_polarity}",
-        "fake_news_detect": fake_news_detect,
+        "fake_news_detect": f"Verified Credinility - {prediction['confidence']}% sure" if prediction["prediction"] == 1 else f"Unverified Credinility - {prediction['confidence']}% sure",
     })
 
 
@@ -337,7 +243,7 @@ def category(category_variable, page_number):
                     category_list = category_list[:12]
             
             return render_template("category.html", category_list=category_list, category=category_variable,
-                                   user=user, toDateTime=toDateTime, len=len, check_article_save=check_article_save, 
+                                   user=user, toDateTime=toDateTime, len=len,  
                                    json=json, page_number=page_number)
     else:
         return redirect("/login")
@@ -436,5 +342,5 @@ def logout():
 
 
 if __name__ == "__main__":
-    PORT = int(os.getenv("PORT")) if os.getenv("PORT") else 8080
-    app.run(port=PORT,host='0.0.0.0',debug=True)
+    PORT = int(os.getenv("PORT")) if os.getenv("PORT") else 5000
+    app.run(port=PORT, host='0.0.0.0', debug=True)

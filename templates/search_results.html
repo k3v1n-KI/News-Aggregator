@@ -52,27 +52,11 @@
                                           title="">{{ article["author"] }}</a></small>
                                 <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i>
                                 {{find_sentiment(article["url"], "subjectivity")}}</a></small>
-                                {% if fake_news_model(article["url"]) == "Verified Credibility" %}
+                                {% if fake_news_model(article["url"], is_content=False)["prediction"] == 1 %}
                                 <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
-                                        {{ fake_news_model(article["url"]) }}</a></small>
+                                        Verified Credibility - {{ fake_news_model(article["url"], is_content=False)["confidence"] }}% sure</a></small>
                                 {% else %}
-                                <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
-                                        fake_news_model(article["url"]) }}</a></small>
-                                {% endif %}
-                                {% if check_article_save(article) %}
-                                <form class="form-wrapper" method="POST" action="/delete_save">
-                                    <input type="text" name="article" style="display: none" value="{{ json.dumps(article) }}">
-                                    <input type="text" name="link" style="display: none" value="/search/{{ search }}/{{page_number}}">
-                                    <button type="submit"><small><i class="fa fa-bookmark"
-                                                style="font-size:18px;"></i></small></button>
-                                </form>
-                                {% else %}
-                                <form class="form-wrapper" method="POST" action="/save">
-                                    <input type="text" name="article" style="display: none" value="{{ json.dumps(article) }}">
-                                    <input type="text" name="link" style="display: none" value="/search/{{ search }}/{{page_number}}">
-                                    <button type="submit"><small><i class="fa fa-bookmark-o"
-                                                style="font-size:18px;"></i></small></button>
-                                </form>
+                                <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> Unverified Credibility - {{ fake_news_model(article["url"], is_content=False)["confidence"] }}% sure</a></small>
                                 {% endif %}
                             </div><!-- end meta -->
                         </div><!-- end blog-box -->

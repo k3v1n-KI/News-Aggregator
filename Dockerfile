@@ -1,6 +1,6 @@
 # Use the official lightweight Python image.
 # https://hub.docker.com/_/python
-FROM python:3.9-slim
+FROM python:3.12-slim
 
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
@@ -9,8 +9,8 @@ ENV PYTHONUNBUFFERED True
 # Copying this separately prevents re-running pip install on every code change.
 COPY requirements.txt ./
 
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
 
 # Copy local code to the container image.
 ENV APP_HOME /app
@@ -19,7 +19,7 @@ COPY . ./
 
 # Install production dependencies.
 RUN pip install -r requirements.txt
-RUN python -m nltk.downloader all -d /usr/local/nltk_data
+
 
 # Run the web service on container startup. Here we use the gunicorn
 # webserver, with one worker process and 8 threads.

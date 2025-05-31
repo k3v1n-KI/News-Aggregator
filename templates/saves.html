@@ -49,10 +49,10 @@
                                             <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i> {{i["subjectivity"]}}</a></small>
                                             {% if i["authentication"] == "Verified Credibility" %}
                                             <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
-                                                    {{ i["authentication"] }}</a></small>
+                                                    {{ i["authentication"] }} - {{ i['auth_confidence'] }}% sure</a></small>
                                             {% else %}
                                             <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
-                                                    i["authentication"] }}</a></small>
+                                                    i["authentication"] }} - {{ i['auth_confidence'] }}% sure</a></small>
                                             {% endif %}
                                             <form class="form-wrapper" method="POST" action="/delete_save">
                                                 <input type="text" name="article" style="display: none" value="{{ json.dumps(i) }}">
