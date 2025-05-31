@@ -1,6 +1,7 @@
 import trafilatura
-from datetime import datetime
 import time
+from datetime import datetime
+import requests
 
 def db_user_identifier(email: str):
     index = email.index("@")
@@ -19,15 +20,20 @@ def user_dict(first_name, last_name, email, preferences, user_id):
     }
 
 
-def get_content(url, retries=3, delay=2):
-    for i in range(retries):
+def get_content(url, max_retries=3, timeout=5):
+    headers = {"User-Agent": "Mozilla/5.0"}
+    for attempt in range(max_retries):
         try:
-            downloaded = trafilatura.fetch_url(url, timeout=10)
-            if downloaded:
-                return trafilatura.extract(downloaded)
-        except Exception as e:
-            print(f"[Retry {i+1}] Failed to fetch {url}: {e}")
-            time.sleep(delay)
+            response = requests.get(url, timeout=timeout, headers=headers)
+            if response.status_code == 200:
+                return response.text
+            else:
+                print(f"[Attempt {attempt + 1}] Non-200 response: {response.status_code}")
+        except requests.exceptions.RequestException as e:
+            print(f"[Attempt {attempt + 1}] Error fetching URL: {e}")
+        if attempt == 2:
+            print("Max retries reached. Moving on")
+        time.sleep(0.5)
     return None
 
 

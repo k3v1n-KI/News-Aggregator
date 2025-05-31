@@ -29,23 +29,6 @@
                                 <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                         articles[0]['authentication'] }} - {{ articles[0]['auth_confidence'] }}% sure</a></small>
                                 {% endif %}
-                                {%if check_article_save(articles[0])%}
-                                <form class="form-wrapper" method="POST" action="/delete_save">
-                                    <input type="text" name="article" style="display: none"
-                                    value="{{ json.dumps(articles[0]) }}">
-                                    <input type="text" name="link" style="display: none" value="/{{page_number}}">
-                                    <button type="submit"><small><i class="fa fa-bookmark"
-                                    style="font-size:18px; color: white"></i></small></button>
-                                </form>
-                                {% else %}
-                                <form class="form-wrapper" method="POST" action="/save">
-                                    <input type="text" name="article" style="display: none"
-                                        value="{{ json.dumps(articles[0]) }}">
-                                    <input type="text" name="link" style="display: none" value="/{{page_number}}">
-                                    <button type="submit"><small><i class="fa fa-bookmark-o"
-                                                style="font-size:18px; color: white"></i></small></button>
-                                </form>
-                                {% endif %}
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
                     </div><!-- end shadow -->
@@ -74,23 +57,6 @@
                                 <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                         articles[1]['authentication'] }}- {{ articles[1]['auth_confidence'] }}% sure</a></small>
                                 {% endif %}
-                                {%if check_article_save(articles[1])%}
-                                <form class="form-wrapper" method="POST" action="/delete_save">
-                                    <input type="text" name="article" style="display: none"
-                                    value="{{ json.dumps(articles[1]) }}">
-                                    <input type="text" name="link" style="display: none" value="/{{page_number}}">
-                                    <button type="submit"><small><i class="fa fa-bookmark"
-                                    style="font-size:18px; color: white"></i></small></button>
-                                </form>
-                                {% else %}
-                                <form class="form-wrapper" method="POST" action="/save">
-                                    <input type="text" name="article" style="display: none"
-                                        value="{{ json.dumps(articles[1]) }}">
-                                    <input type="text" name="link" style="display: none" value="/{{page_number}}">
-                                    <button type="submit"><small><i class="fa fa-bookmark-o"
-                                                style="font-size:18px; color: white"></i></small></button>
-                                </form>
-                                {% endif %}
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
                     </div><!-- end shadow -->
@@ -118,23 +84,6 @@
                                 {% else %}
                                 <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                         articles[2]['authentication'] }} - {{ articles[2]['auth_confidence'] }}% sure</a></small>
-                                {% endif %}
-                                {%if check_article_save(articles[2])%}
-                                <form class="form-wrapper" method="POST" action="/delete_save">
-                                    <input type="text" name="article" style="display: none"
-                                    value="{{ json.dumps(articles[2]) }}">
-                                    <input type="text" name="link" style="display: none" value="/{{page_number}}">
-                                    <button type="submit"><small><i class="fa fa-bookmark"
-                                    style="font-size:18px; color: white"></i></small></button>
-                                </form>
-                                {% else %}
-                                <form class="form-wrapper" method="POST" action="/save">
-                                    <input type="text" name="article" style="display: none"
-                                        value="{{ json.dumps(articles[2]) }}">
-                                    <input type="text" name="link" style="display: none" value="/{{page_number}}">
-                                    <button type="submit"><small><i class="fa fa-bookmark-o"
-                                                style="font-size:18px; color: white"></i></small></button>
-                                </form>
                                 {% endif %}
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
@@ -179,28 +128,12 @@
                                 <small><a target="_blank" href="#" title=""><i class="fa fa-eye"></i> {{ article['subjectivity'] }}</a></small>
                                 {% if article['authentication'] == "Verified Credibility" %}
                                 <small><a target="_blank" href="#" title=""> <i class="fa fa-check-circle bg-green"></i>
-                                        {{ article['authentication'] }} - {{ articles['auth_confidence'] }}% sure</a></small>
+                                        {{ article['authentication'] }} - {{ article['auth_confidence'] }}% sure</a></small>
                                 {% else %}
                                 <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
-                                        article['authentication'] }} - {{ articles['auth_confidence'] }}% sure</a></small>
+                                        article['authentication'] }} - {{ article['auth_confidence'] }}% sure</a></small>
                                 {% endif %}
-                                {%if check_article_save(article)%}
-                                <form class="form-wrapper" method="POST" action="/delete_save">
-                                    <input type="text" name="article" style="display: none"
-                                    value="{{ json.dumps(article) }}">
-                                    <input type="text" name="link" style="display: none" value="/{{page_number}}">
-                                    <button type="submit"><small><i class="fa fa-bookmark"
-                                    style="font-size:18px;"></i></small></button>
-                                </form>
-                                {% else %}
-                                <form class="form-wrapper" method="POST" action="/save">
-                                    <input type="text" name="article" style="display: none"
-                                        value="{{ json.dumps(article) }}">
-                                    <input type="text" name="link" style="display: none" value="/{{page_number}}">
-                                    <button type="submit"><small><i class="fa fa-bookmark-o"
-                                                style="font-size:18px;"></i></small></button>
-                                </form>
-                                {% endif %}
+                                
                             </div><!-- end meta -->
                         </div><!-- end blog-box -->
                         <hr class="invis">

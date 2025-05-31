@@ -64,25 +64,6 @@
                                         <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                                 category_list[article]['authentication'] }}</a></small>
                                         {% endif %}
-                                        {% if check_article_save(category_list[article]) %}
-                                        <form class="form-wrapper" method="POST" action="/delete_save">
-                                            <input type="text" name="article" style="display: none"
-                                                value="{{ json.dumps(category_list[article]) }}">
-                                            <input type="text" name="link" style="display: none"
-                                                value="/category/{{ category }}/{{page_number}}">
-                                            <button type="submit"><small><i class="fa fa-bookmark"
-                                                        style="font-size:18px;"></i></small></button>
-                                        </form>
-                                        {% else %}
-                                        <form class="form-wrapper" method="POST" action="/save">
-                                            <input type="text" name="article" style="display: none"
-                                                value="{{ json.dumps(category_list[article]) }}">
-                                            <input type="text" name="link" style="display: none"
-                                                value="/category/{{ category }}/{{page_number}}">
-                                            <button type="submit"><small><i class="fa fa-bookmark-o"
-                                                        style="font-size:18px;"></i></small></button>
-                                        </form>
-                                        {% endif %}
                                     </div><!-- end meta -->
                                 </div><!-- end blog-box -->
                             </div><!-- end col -->
@@ -118,25 +99,7 @@
                                         <small><a target="_blank" href="#" title=""> <i class="	fa fa-close bg-red"></i> {{
                                                 category_list[article + 1]['authentication'] }}</a></small>
                                         {% endif %}
-                                        {% if check_article_save(category_list[article + 1]) %}
-                                        <form class="form-wrapper" method="POST" action="/delete_save">
-                                            <input type="text" name="article" style="display: none"
-                                                value="{{ json.dumps(category_list[article + 1]) }}">
-                                            <input type="text" name="link" style="display: none"
-                                                value="/category/{{ category }}/{{page_number}}">
-                                            <button type="submit"><small><i class="fa fa-bookmark"
-                                                        style="font-size:18px;"></i></small></button>
-                                        </form>
-                                        {% else %}
-                                        <form class="form-wrapper" method="POST" action="/save">
-                                            <input type="text" name="article" style="display: none"
-                                                value="{{ json.dumps(category_list[article + 1]) }}">
-                                            <input type="text" name="link" style="display: none"
-                                                value="/category/{{ category }}/{{page_number}}">
-                                            <button type="submit"><small><i class="fa fa-bookmark-o"
-                                                        style="font-size:18px;"></i></small></button>
-                                        </form>
-                                        {% endif %}
+
                                     </div><!-- end meta -->
                                 </div><!-- end blog-box -->
                             </div><!-- end col -->

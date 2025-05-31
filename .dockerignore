@@ -6,3 +6,4 @@ Dockerfile
 __pycache__
 *.pyo
 *.pyd
+/pytorch_model_api
